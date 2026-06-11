@@ -37,6 +37,10 @@ cloud required, no vendor lock-in.
 
 ## Roadmap
 
+**MVP target: 2026-08-31** — bare-bones build (ROS2 on Raspberry Pi, LiDAR,
+manual SLAM, Gazebo sim, 3D-printed chassis, demo video). Scope and non-goals are
+in [ARCHITECTURE.md](ARCHITECTURE.md).
+
 - [ ] Bill of materials (BOM)
 - [ ] 3D-printable chassis files
 - [ ] Firmware and ROS2 packages
@@ -51,6 +55,26 @@ Full build docs and a complete BOM are on the way, with the goal that you can
 source every part yourself.
 
 Full disclosure: if you'd rather skip the parts hunt, a kit (motors, PCB, brushes, gaskets, LiDAR) will be available at [makerspet.com](https://makerspet.com), from the same maker behind this project. The kit is a convenience, never a requirement. **Everything here stays open.**
+
+## Contributing
+
+oomwoo is built by the community, **module by module**, so people can build in
+parallel without stepping on each other. New here? Welcome.
+
+1. Read [CONTRIBUTING.md](CONTRIBUTING.md) for how it works.
+2. Browse [MODULES.md](MODULES.md) and pick a hardware or software module.
+   (Software and simulation modules can start right now.)
+3. Check [ARCHITECTURE.md](ARCHITECTURE.md) for the system design and interfaces.
+4. Say hi on [Discord](https://discord.gg/3y2JKz5T25) or in
+   [Discussions](https://github.com/makerspet/oomwoo/discussions).
+
+## Documentation
+
+- [ARCHITECTURE.md](ARCHITECTURE.md) — system design, interfaces, MVP scope
+- [MODULES.md](MODULES.md) — module catalog and status
+- [docs/RFM-TEMPLATE.md](docs/RFM-TEMPLATE.md) — the per-module spec template
+- [docs/references.md](docs/references.md) — reference designs and prior art
+- [CONTRIBUTING.md](CONTRIBUTING.md) — how to contribute
 
 ## Community
 
