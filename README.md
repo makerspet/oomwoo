@@ -83,7 +83,7 @@ Multiple developers are welcome to work on the same module.
 The best solution for each module surfaces for over time, with the project master having the last call.
 
 1. Read [CONTRIBUTING.md](CONTRIBUTING.md) for how it works.
-2. Browse [MODULES.md](MODULES.md) and pick a hardware or software module.
+2. Browse [RFC_MASTER_LIST.md](RFC_MASTER_LIST.md) and pick a contribution to make, usually a hardware or software module.
    (Software and simulation modules can start right now.)
 3. Check [ARCHITECTURE.md](ARCHITECTURE.md) for the system design and interfaces.
 4. Say hi on [Discord](https://discord.gg/3y2JKz5T25) or in
