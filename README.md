@@ -11,9 +11,6 @@ Raspberry Pi · ROS2 · Home Assistant · 2D LiDAR · 3D printed · ESP32 · Ard
 
 </div>
 
-> ⚠️ **Early development.** This is a placeholder. The project is just getting
-> started, so there's nothing to build yet. **Star or watch** the repo to follow along.
-
 ## What is this?
 
 oomwoo is an **open-source home robot vacuum** you can build yourself, made for the
@@ -22,6 +19,11 @@ affordable 2D LiDAR to map your home and navigate on its own. Local, no
 cloud required for regular functionality, no vendor lock-in.
 
 *(The name is a rotational ambigram - it reads the same flipped 180°, like the robot itself, roaming your floor in every direction.)*
+
+Reference design images - this is approximately how the finished design will look:
+
+![Reference robot vacuum cleaner top](./assets/vacuum_model_top.webp)
+![Reference robot vacuum cleaner bottom](./assets/vacuum_model_bottom.webp)
 
 ## Goals
 
