@@ -86,9 +86,6 @@ The best solution for each module surfaces for over time, with the project maste
 ## Documentation
 
 - [ARCHITECTURE.md](ARCHITECTURE.md) — system design, interfaces, MVP scope
-- [RFC_MASTER_LIST.md](RFC_MASTER_LIST.md) — module catalog and status
-- [docs/RFC-TEMPLATE.md](docs/RFC-TEMPLATE.md) — the per-module spec template
-- [docs/references.md](docs/references.md) — reference designs and prior art
 - [CONTRIBUTING.md](CONTRIBUTING.md) — how to contribute
 
 ## Community
@@ -98,6 +95,17 @@ The best solution for each module surfaces for over time, with the project maste
 - Reddit: build-in-public home at [r/ArduinoAndRobotics](https://www.reddit.com/r/ArduinoAndRobotics/)
 - YouTube: [build-in-public channel](https://www.youtube.com/@makerspet)
 - X: [@0OMWO0](https://x.com/@0OMWO0)
+
+## Requests for Contributions
+
+Would you like to contribute?
+
+Pick a contribution from the list below and [let me know](https://github.com/makerspet/oomwoo/discussions) you're working on it and your progress.
+
+| Module | ID | Phase | Notes |
+|---|---|---|---|
+| ROS2 URDF + Gazebo sim | [urdf-gazebo-sim](./contributions/urdf-gazebo-sim) | Ready to start work | Design URDF, TF, simulate in Gazebo |
+| Dust bin 3D design | [dust-bin](./contributions/dust-bin) | Ready to start work | Design, 3D print, test dust bin |
 
 ## Source Code
 
@@ -114,6 +122,7 @@ The best solution for each module surfaces for over time, with the project maste
 - [Valetudo](https://github.com/Hypfer/Valetudo) — cloud-free firmware replacement for commercial vacuums (local app-level control, not ROS2)
 - [Dennis Giese / robotinfo.dev](https://robotinfo.dev) — teardowns and rootability of commercial robot vacuums.
 - [codetiger/VacuumTiger](https://github.com/codetiger/VacuumTiger) - 3irobotix CRL-200-based vacuum low-level control reverse engineered
+- [Build a ROS2/LiDAR robot crash course](https://makerspet.com/blog/build-arduino-self-driving-robot-video-instructions/) - watch this if you have no robotics experience
 
 ## About
 
