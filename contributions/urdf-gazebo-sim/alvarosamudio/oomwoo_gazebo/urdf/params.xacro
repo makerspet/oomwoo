@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:property name="pi" value="3.1415926535"/>
+
+  <xacro:property name="wheel_diameter" value="0.065"/>
+  <xacro:property name="wheel_width" value="0.025"/>
+  <xacro:property name="wheel_base" value="0.280"/>
+  <xacro:property name="wheel_mass" value="0.080"/>
+
+  <xacro:property name="caster_diameter" value="0.020"/>
+  <xacro:property name="caster_mass" value="0.020"/>
+  <xacro:property name="caster_inset" value="0.030"/>
+
+  <xacro:property name="floor_clearance" value="0.020"/>
+
+  <xacro:property name="base_diameter" value="0.330"/>
+  <xacro:property name="base_height" value="0.040"/>
+  <xacro:property name="base_mass" value="0.800"/>
+
+  <xacro:property name="top_height" value="0.035"/>
+  <xacro:property name="top_mass" value="0.300"/>
+
+  <xacro:property name="lidar_height" value="0.025"/>
+  <xacro:property name="lidar_diameter" value="0.050"/>
+  <xacro:property name="lidar_mass" value="0.050"/>
+  <xacro:property name="lidar_z_offset" value="0.075"/>
+
+  <xacro:property name="bumper_height" value="0.030"/>
+  <xacro:property name="bumper_width" value="0.100"/>
+  <xacro:property name="bumper_depth" value="0.012"/>
+  <xacro:property name="bumper_mass" value="0.020"/>
+  <xacro:property name="motor_stall_torque" value="0.5"/>
+  <xacro:property name="max_linear_acceleration" value="1.0"/>
+</robot>
