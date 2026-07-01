@@ -33,7 +33,7 @@ sourcing notes.
   1. **Find an existing STEP** (manufacturer site, GrabCAD, etc.) and **verify it against the
      real part** (dimensions match). Fastest — but confirm it's the same model/revision.
   2. **Model it yourself**: order the exact part (AliExpress links are in the BOM), measure
-     with calipers, and build an accurate STEP.
+     with calipers, optionally use a 3D scanner and build an accurate STEP.
 - **Capture the interface-relevant geometry** (external only — internal detail is not needed):
   - Overall **bounding envelope** (so it fits the chassis space / height budget)
   - **Mounting features**: holes, bosses, clips, bolt pattern — and their exact positions
@@ -61,6 +61,7 @@ Objective, measurable. Examples:
 - Accurate **STEP** of the specified part — bounding envelope, mounting features, and
   functional interfaces match the measured real part (within a stated tolerance)
 - Includes the **exact source link**, **key dimensions**, and a **photo** of the real part
+  - Please make sure the model is licensed as open-source
 - **Verifiable/reproducible** by someone else who buys the same part
 - STEP provided (+ native CAD source if self-modeled)
 - Documented well enough that a mount designer can build against it with confidence
