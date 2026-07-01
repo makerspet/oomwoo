@@ -152,8 +152,8 @@ flowchart TD
 ## Requests for Contributions
 
 | Module | ID | Phase | Notes |
-|---|---|---|---|
-| ROS2 URDF + Gazebo sim | [urdf-gazebo-sim](./contributions/urdf-gazebo-sim) | Ready to start work | Design URDF, TF, bumper, simulate in Gazebo |
+|---|---|---|---|---|
+| ROS2 URDF + Gazebo sim | [urdf-gazebo-sim](./contributions/urdf-gazebo-sim) | Submitted — [PR #10](https://github.com/makerspet/oomwoo/pull/10) by @alvarosamudio | URDF, diff-drive, LiDAR, bumper, 5 worlds, SLAM/Nav2 config |
 | First clean: coverage + mapping + exploration | [clean-and-map](./contributions/clean-and-map) | Blocked by urdf-gazebo-sim | Coverage cleaning while SLAM-mapping and exploring, in Gazebo |
 | Localization & navigation on a known map | [nav-localize](./contributions/nav-localize) | Blocked by urdf-gazebo-sim, clean-and-map | Nav2 nav, AMCL localization, relocalize when lost, resume map |
 | Dock cycle: undock, dock, recharge | [dock-cycle](./contributions/dock-cycle) | Blocked by urdf-gazebo-sim, nav-localize | Undock, return-to-dock, precise docking, station services, find dock when lost |

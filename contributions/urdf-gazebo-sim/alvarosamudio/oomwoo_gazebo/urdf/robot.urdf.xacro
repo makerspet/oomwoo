@@ -1,0 +1,199 @@
+<?xml version="1.0" ?>
+<robot name="oomwoo" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="params.xacro"/>
+  <xacro:include filename="inertial.xacro"/>
+  <xacro:include filename="materials.xacro"/>
+  <xacro:include filename="plugins.xacro"/>
+
+  <link name="base_footprint"/>
+
+  <joint name="base_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 ${floor_clearance}" rpy="0 0 0"/>
+  </joint>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 ${base_height/2}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${base_height}" radius="${base_diameter/2}"/>
+      </geometry>
+      <material name="dark_grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 ${base_height/2}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${base_height}" radius="${base_diameter/2}"/>
+      </geometry>
+    </collision>
+    <xacro:solid_cylinder_inertia m="${base_mass}" r="${base_diameter/2}" h="${base_height}"/>
+  </link>
+
+  <joint name="top_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="top_link"/>
+    <origin xyz="0 0 ${base_height}" rpy="0 0 0"/>
+  </joint>
+
+  <link name="top_link">
+    <visual>
+      <origin xyz="0 0 ${top_height/2}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${top_height}" radius="${base_diameter/2}"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 ${top_height/2}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${top_height}" radius="${base_diameter/2}"/>
+      </geometry>
+    </collision>
+    <xacro:solid_cylinder_inertia m="${top_mass}" r="${base_diameter/2}" h="${top_height}"/>
+  </link>
+
+  <joint name="caster_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="caster_link"/>
+    <origin xyz="${caster_inset - base_diameter/2} 0 ${caster_diameter/2 - floor_clearance}" rpy="0 0 0"/>
+  </joint>
+
+  <link name="caster_link">
+    <visual>
+      <geometry>
+        <sphere radius="${caster_diameter/2}"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="${caster_diameter/2}"/>
+      </geometry>
+    </collision>
+    <xacro:solid_sphere_inertia m="${caster_mass}" r="${caster_diameter/2}"/>
+  </link>
+
+  <joint name="wheel_left_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_left_link"/>
+    <origin xyz="0 ${wheel_base/2} ${wheel_diameter/2 - floor_clearance}" rpy="-${pi/2} 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="${motor_stall_torque}" velocity="1.0"/>
+  </joint>
+
+  <link name="wheel_left_link">
+    <visual>
+      <geometry>
+        <cylinder length="${wheel_width}" radius="${wheel_diameter/2}"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="${wheel_width}" radius="${wheel_diameter/2}"/>
+      </geometry>
+    </collision>
+    <xacro:solid_cylinder_inertia m="${wheel_mass}" r="${wheel_diameter/2}" h="${wheel_width}"/>
+  </link>
+
+  <joint name="wheel_right_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_right_link"/>
+    <origin xyz="0 ${-wheel_base/2} ${wheel_diameter/2 - floor_clearance}" rpy="-${pi/2} 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="${motor_stall_torque}" velocity="1.0"/>
+  </joint>
+
+  <link name="wheel_right_link">
+    <visual>
+      <geometry>
+        <cylinder length="${wheel_width}" radius="${wheel_diameter/2}"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="${wheel_width}" radius="${wheel_diameter/2}"/>
+      </geometry>
+    </collision>
+    <xacro:solid_cylinder_inertia m="${wheel_mass}" r="${wheel_diameter/2}" h="${wheel_width}"/>
+  </link>
+
+  <joint name="scan_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="base_scan"/>
+    <origin xyz="0 0 ${lidar_z_offset}" rpy="0 0 0"/>
+  </joint>
+
+  <link name="base_scan">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${lidar_height}" radius="${lidar_diameter/2}"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${lidar_height}" radius="${lidar_diameter/2}"/>
+      </geometry>
+    </collision>
+    <xacro:solid_cylinder_inertia m="${lidar_mass}" r="${lidar_diameter/2}" h="${lidar_height}"/>
+  </link>
+
+  <joint name="bumper_left_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="bumper_left_link"/>
+    <origin xyz="${base_diameter/2} ${bumper_width/2 + 0.01} ${bumper_height/2}" rpy="0 0 0"/>
+  </joint>
+
+  <link name="bumper_left_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${bumper_depth} ${bumper_width} ${bumper_height}"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+    <collision name="bumper_left_collision">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${bumper_depth} ${bumper_width} ${bumper_height}"/>
+      </geometry>
+    </collision>
+    <xacro:solid_box_inertia m="${bumper_mass/2}" x="${bumper_depth}" y="${bumper_width}" z="${bumper_height}"/>
+  </link>
+
+  <joint name="bumper_right_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="bumper_right_link"/>
+    <origin xyz="${base_diameter/2} ${-bumper_width/2 - 0.01} ${bumper_height/2}" rpy="0 0 0"/>
+  </joint>
+
+  <link name="bumper_right_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${bumper_depth} ${bumper_width} ${bumper_height}"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+    <collision name="bumper_right_collision">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${bumper_depth} ${bumper_width} ${bumper_height}"/>
+      </geometry>
+    </collision>
+    <xacro:solid_box_inertia m="${bumper_mass/2}" x="${bumper_depth}" y="${bumper_width}" z="${bumper_height}"/>
+  </link>
+
+  <gazebo reference="bumper_left_link">
+    <self_collide>false</self_collide>
+  </gazebo>
+
+  <gazebo reference="bumper_right_link">
+    <self_collide>false</self_collide>
+  </gazebo>
+</robot>
