@@ -1,0 +1,20 @@
+## Drive Wheel pinout and cable length: ##
+  - Pinout:
+    - pin 1: Limit switch, grey
+    - pin 2: Limit switch, grey
+    - pin 3: Encoder 5v, orange
+    - pin 4: Encoder Signal, blue
+    - pin 5: Encoder Ground, brown
+    - pin 6: Motor power, black
+    - pin 7: Motor power, red
+    - Note: Some uncertainty around the encoder wires; I agreed with https://electronics.stackexchange.com/questions/549640/how-to-find-pinout-of-dc-geared-motor-with-encoder but do not have a pcb to hand to confirm. The comments there suggest the encoder is hall effect, but am not certain this is true.
+  - Cable length:
+    - 250mm ( Estimate Only - based on examining photos, please confirm with physical article )
+  - Connector: 
+    - JST, might be XH but not certain.
+
+Links:
+https://electronics.stackexchange.com/questions/549640/how-to-find-pinout-of-dc-geared-motor-with-encoder
+https://www.reddit.com/r/Roborock/comments/1t4akoj/new_wheel_for_roborock_s5v/
+(used google translate to determine wire colour)
+https://drive.google.com/file/d/1xLM9X-zjDowNAcrZBPqK-h6_eV-Fou7R/edit (disassembly of roborock vacuum; red and black wires clearly largest traces at 2:00, pin 1 marking also visible on connector)
