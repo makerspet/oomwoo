@@ -1,0 +1,29 @@
+slam_toolbox:
+  ros__parameters:
+    solver_plugin: solver_plugins::CeresSolver
+    ceres_linear_solver: SPARSE_NORMAL_CHOLESKY
+    ceres_preconditioner: SCHUR_JACOBI
+    ceres_trust_strategy: LEVENBERG_MARQUARDT
+    ceres_dogleg_type: TRADITIONAL_DOGLEG
+    ceres_loss_function: None
+
+    odom_frame: odom
+    map_frame: map
+    base_frame: base_footprint
+    scan_topic: /scan
+    mode: mapping
+
+    map_file_name: oomwoo_map
+    map_start_at_dock: true
+    map_start_pose: [0.0, 0.0, 0.0]
+    map_save_period: 30.0
+    use_map_saver: true
+
+    minimum_time_interval: 0.5
+    minimum_travel_distance: 0.1
+    minimum_travel_heading: 0.2
+    scan_buffer_size: 10
+    scan_buffer_maximum_scan_distance: 10.0
+    max_laser_range: 10.0
+    resolution: 0.05
+    transform_timeout: 0.2

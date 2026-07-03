@@ -1,0 +1,274 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <world name="living_room">
+    <gravity>0 0 -9.81</gravity>
+
+    <physics name="1ms" type="dart">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <dart>
+        <collision_detector>bullet</collision_detector>
+      </dart>
+    </physics>
+
+    <plugin
+      filename="gz-sim-physics-system"
+      name="gz::sim::systems::Physics">
+    </plugin>
+    <plugin
+      filename="gz-sim-cpu-lidar-system"
+      name="gz::sim::systems::CpuLidar">
+    </plugin>
+    <plugin
+      filename="gz-sim-contact-system"
+      name="gz::sim::systems::Contact">
+    </plugin>
+    <plugin
+      filename="gz-sim-user-commands-system"
+      name="gz::sim::systems::UserCommands">
+    </plugin>
+    <plugin
+      filename="gz-sim-scene-broadcaster-system"
+      name="gz::sim::systems::SceneBroadcaster">
+    </plugin>
+
+    <scene>
+      <ambient>0.4 0.4 0.4</ambient>
+      <background>0.7 0.7 0.7</background>
+    </scene>
+
+    <light type="directional" name="sun">
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <direction>-0.5 0.1 -1</direction>
+    </light>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="wall_01">
+      <static>true</static>
+      <pose>2.0 0 0.75 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.2 5.0 1.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.2 5.0 1.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7 0.7 0.7</ambient>
+            <diffuse>0.7 0.7 0.7</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="wall_02">
+      <static>true</static>
+      <pose>-2.0 0 0.75 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.2 5.0 1.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.2 5.0 1.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7 0.7 0.7</ambient>
+            <diffuse>0.7 0.7 0.7</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="wall_03">
+      <static>true</static>
+      <pose>0 2.0 0.75 0 0 1.5708</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.2 4.0 1.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.2 4.0 1.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7 0.7 0.7</ambient>
+            <diffuse>0.7 0.7 0.7</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="wall_04">
+      <static>true</static>
+      <pose>0 -2.0 0.75 0 0 1.5708</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.2 4.0 1.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.2 4.0 1.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7 0.7 0.7</ambient>
+            <diffuse>0.7 0.7 0.7</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="sofa">
+      <static>true</static>
+      <pose>-0.8 -1.2 0.25 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.8 0.4 0.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.8 0.4 0.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2 0.3 0.6</ambient>
+            <diffuse>0.2 0.3 0.6</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="table">
+      <static>true</static>
+      <pose>0.8 1.0 0.25 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.6 0.6 0.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.6 0.6 0.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.3 0.1</ambient>
+            <diffuse>0.5 0.3 0.1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="obstacle_box">
+      <static>true</static>
+      <pose>-0.5 -0.5 0.15 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.3 0.3 0.3</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.3 0.3 0.3</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.2 0.2</ambient>
+            <diffuse>0.8 0.2 0.2</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="plant">
+      <static>true</static>
+      <pose>1.2 -1.0 0.2 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <cylinder>
+              <radius>0.15</radius>
+              <length>0.4</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <cylinder>
+              <radius>0.15</radius>
+              <length>0.4</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.1 0.6 0.1</ambient>
+            <diffuse>0.1 0.6 0.1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+  </world>
+</sdf>
