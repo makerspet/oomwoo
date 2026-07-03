@@ -1,6 +1,6 @@
 # Procure Part Specs & Datasheets for Sourced Components
 
-We've **already sourced** candidate parts (see [BOM.md](../../BOM.md)). To design the I/O
+We've already sourced candidate parts (see [BOM.md](../../BOM.md)). To design the I/O
 board and firmware, **drive the motors and fans**, and build accurate mounts, we need each
 part's detailed **electrical + mechanical specs** — pinouts, voltages, currents, encoder
 PPR, torque, waveforms, etc. Vendors rarely publish these for vacuum sub-assemblies, so
@@ -9,6 +9,9 @@ contributors will **find datasheets, ask vendors, or safely reverse-engineer** t
 This is the *electrical/mechanical data* companion to
 [source-3d-models](../source-3d-models) (which covers the *geometry*). No robotics
 background needed — a multimeter, patience, and (for reverse-engineering) an oscilloscope go far.
+
+Please check [BOM.md](../../BOM.md) and the [sourcing follow-along blog post](https://makerspet.com/blog/how-to-source-bom-for-oomwoo-open-source-vacuum-robot/)
+for datasheets/specs already found.
 
 ## What we need, per part
 
