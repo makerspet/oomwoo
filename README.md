@@ -2,7 +2,7 @@
 
 # OOMWOO
 
-*The open-source robot vacuum you build yourself.*
+*Open-source robot vacuum you build yourself.*
 
 Clean well · Raspberry Pi · ROS2 · Home Assistant · 2D LiDAR · 3D printed · ESP32 · Arduino
 
