@@ -171,12 +171,13 @@ replaces the STM32.
 ## 6. Software architecture
 
 ### 6.1 ROS2 graph (MVP)
-- *TBD:* Node list and the topic/service/action interfaces between them.
 - Core nodes (MVP): LiDAR driver, base controller (diff-drive), odometry,
   teleop, SLAM (manual mapping), TF/URDF publisher.
 - *Interface contract:* each software module's RFC declares the ROS2 topics,
   services, message types, and parameters it publishes/consumes. Modules depend
-  on these interfaces, not on each other's code.
+  on these interfaces, not on each other's code. See
+  [SOFTWARE_INTERFACES.md](SOFTWARE_INTERFACES.md) for the current draft ROS2
+  graph contract.
 
 ### 6.2 Simulation
 - Gazebo + URDF, with a set of residential-layout worlds for navigation and

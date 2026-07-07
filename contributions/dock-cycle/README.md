@@ -17,6 +17,7 @@ hardware in the [live-robot-bringup RFC](../live-robot-bringup).
 - [nav-localize RFC](../nav-localize) — localization + Nav2; the find-the-dock fallback is invoked when its relocalization fails.
 - [clean-and-map RFC](../clean-and-map) and [cleaning-jobs RFC](../cleaning-jobs) — trigger return-to-dock for recharge / auto-empty / mop-wash mid-job.
 - [urdf-gazebo-sim RFC](../urdf-gazebo-sim) — robot URDF and Gazebo world(s) to model the dock in.
+- [ROS2 software interfaces](../../docs/SOFTWARE_INTERFACES.md) — shared topic/action/service contract for simulation-first modules.
 - Model a *generic basic charging dock* (charge contacts + a detectable marker). Exact dock geometry is TBD — the old teardown reference vacuum is no longer used.
 - [OOMWOO ROS2 development](https://github.com/makerspet/oomwoo-install) — build OOMWOO ROS2 Docker image(s) with your packages.
 - Nav2 docking (`opennav_docking`) is a good starting point for precise approach.

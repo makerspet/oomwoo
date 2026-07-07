@@ -15,6 +15,7 @@ hardware in the [live-robot-bringup RFC](../live-robot-bringup).
 # Important References
 - [clean-and-map RFC](../clean-and-map) — coverage cleaning that this refines at edges and surface transitions.
 - [urdf-gazebo-sim RFC](../urdf-gazebo-sim) — robot URDF; this package likely needs a *surface sensor* and a *mop lift/lower actuator* modeled.
+- [ROS2 software interfaces](../../docs/SOFTWARE_INTERFACES.md) — shared topic/action/service contract for simulation-first modules.
 - [OOMWOO ROS2 development](https://github.com/makerspet/oomwoo-install) — build OOMWOO ROS2 Docker image(s) with your packages.
 - [Project discussions](https://github.com/makerspet/oomwoo/discussions?discussions_q=)
 - [Discord server](https://discord.gg/3y2JKz5T25)

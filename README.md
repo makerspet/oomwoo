@@ -73,7 +73,9 @@ The best solution for each module surfaces for over time, with the project maste
 
 1. Pick a contribution from the [list below](#requests-for-contributions).
 2. [Let us know](https://github.com/makerspet/oomwoo/discussions) you're working on it and your progress.
-3. Check [ARCHITECTURE.md](docs/ARCHITECTURE.md) for the system design and interfaces.
+3. Check [ARCHITECTURE.md](docs/ARCHITECTURE.md) and
+   [SOFTWARE_INTERFACES.md](docs/SOFTWARE_INTERFACES.md) for the system design
+   and ROS2 interfaces.
 
 ## Requests for Contributions
 

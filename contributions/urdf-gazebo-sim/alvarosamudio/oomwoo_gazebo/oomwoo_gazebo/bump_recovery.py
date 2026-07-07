@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
-from ros_gz_interfaces.msg import Contact
+from ros_gz_interfaces.msg import Contacts
 from geometry_msgs.msg import Twist
 
 
@@ -10,32 +10,42 @@ class BumpRecovery(Node):
         super().__init__("bump_recovery")
         self._cmd_pub = self.create_publisher(Twist, "cmd_vel", 10)
         self._left_sub = self.create_subscription(
-            Contact, "bumper_left", self._left_cb, 10
+            Contacts, "bumper_left", self._left_cb, 10
         )
         self._right_sub = self.create_subscription(
-            Contact, "bumper_right", self._right_cb, 10
+            Contacts, "bumper_right", self._right_cb, 10
         )
         self._recovering = False
         self._timer = None
 
     def _left_cb(self, msg):
-        if self._recovering or not msg.collisions:
+        if self._recovering or not msg.contacts:
             return
         if self._is_real_contact(msg):
             self._recover("left")
 
     def _right_cb(self, msg):
-        if self._recovering or not msg.collisions:
+        if self._recovering or not msg.contacts:
             return
         if self._is_real_contact(msg):
             self._recover("right")
 
     def _is_real_contact(self, msg):
-        for c in msg.collisions:
-            if (not c.collision1.name.startswith("ground_plane")
-                    and not c.collision2.name.startswith("ground_plane")):
+        for contact in msg.contacts:
+            if not self._is_ground_contact(contact):
                 return True
         return False
+
+    @staticmethod
+    def _is_ground_contact(contact):
+        return (
+            BumpRecovery._is_ground_entity(contact.collision1.name)
+            or BumpRecovery._is_ground_entity(contact.collision2.name)
+        )
+
+    @staticmethod
+    def _is_ground_entity(name):
+        return "ground_plane" in name.split("::")
 
     def _recover(self, side):
         self._recovering = True

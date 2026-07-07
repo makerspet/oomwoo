@@ -154,7 +154,7 @@ gz sim -s -r --headless-rendering <world.sdf>
 | SDF `box size="..."` attribute syntax deprecated | Changed to nested `<box><size>...</size></box>` in all worlds |
 | `fuel.gazebosim.org` remote model references | Replaced with self-contained light + ground_plane models |
 | GPU LiDAR requires hardware GPU | Switched to `type="lidar"` (CpuLidar) with physics raycasting |
-| Bumper bridge `Contact` → `Contacts` type mismatch | Fixed ROS msg type in `gz_bridge.yaml` |
+| Bumper bridge `Contact` → `Contacts` type mismatch | Fixed ROS msg type in `gz_bridge.yaml` and `bump_recovery.py` |
 | SDF 1.8 gravity deprecation warning | Moved `gravity` to `<world>` level in all SDFs |
 
 ## Dependencies
