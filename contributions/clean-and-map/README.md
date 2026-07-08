@@ -23,6 +23,7 @@ physical robot isn't built yet, this is a *Gazebo simulation*.
 
 # Important References
 - [urdf-gazebo-sim RFC](../urdf-gazebo-sim) — provides the robot URDF, the Gazebo world(s), and the *bumper* this package depends on.
+- [ROS2 software interfaces](../../docs/SOFTWARE_INTERFACES.md) — shared topic/action/service contract for simulation-first modules.
 - [m-explore-ros2 (kaiaai fork)](https://github.com/kaiaai/m-explore-ros2) — frontier exploration, tested and working. It maps and explores but does *not* clean — a good starting point to build on.
 - [m-explore-ros2 demo + step-by-step instructions (video)](https://www.youtube.com/watch?v=81-9q7QfkHs&list=PLOSXKDW70aR8uA1IFahSKVuk5ODDfjTZV) — shows m-explore-ros2 in action and how to run it.
 - [Gazebo simulation setup instructions](https://makerspet.com/blog/tutorial-map-navigate-ros2-robot-in-simulation/) — a simple differential-drive robot with a LiDAR in a Gazebo living room world; another possible starting point.

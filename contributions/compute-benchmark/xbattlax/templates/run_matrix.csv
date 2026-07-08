@@ -1,0 +1,8 @@
+run_id,date_utc,git_sha,hardware_profile,ram_gb,ros_distro,rmw,scenario,node_strategy,lidar_hz,scan_dropping,command_or_launch,expected_duration_s,notes
+baseline_idle,,,,,jazzy,,ros_graph_idle,python_cpp_baseline,5,no,,60,
+slam_5hz,,,,,jazzy,,slam_mapping,python_cpp_baseline,5,no,,300,
+nav_known_map,,,,,jazzy,,nav2_known_map,python_cpp_baseline,5,no,,300,
+recovery_idle,,,,,jazzy,,recovery_safety_idle,python_cpp_baseline,5,no,,60,
+recovery_burst,,,,,jazzy,,recovery_safety_event_burst,python_cpp_baseline,5,no,,60,
+composable_idle,,,,,jazzy,,ros_graph_idle,composable_nodes,5,no,,60,
+rust_spike_late_summer,,,,,jazzy,,selected_custom_node,rust_rclrs_optional,5,no,,60,

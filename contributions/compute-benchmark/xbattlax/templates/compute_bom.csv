@@ -1,0 +1,7 @@
+hardware_profile,role,part,sku_or_module,quantity,unit_price,currency,regional_source_url,stock_status,power_notes,cooling_notes,storage_or_carrier_notes,notes
+CM4_4GB,compute,Compute Module 4,,,,,,,,,,
+CM5_4GB,compute,Compute Module 5,,,,,,,,,,
+Pi4_4GB,compute,Raspberry Pi 4 4GB,,,,,,,,,,
+TwoGB_stretch,compute,2GB SBC or module,,,,,,,,,,
+Consumer_MCU,safety_controller,STM32G070RBT6,,,,,,,,,,
+Educational_ESP32,micro_ros_bridge,ESP32 board,,,,,,,,,,

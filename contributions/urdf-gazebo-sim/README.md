@@ -12,6 +12,7 @@ software modules (mapping, navigation, cleaning) can be developed *without hardw
 # Important References
 - [Simulate the Proscenic M6 Pro in Gazebo with ROS2](https://makerspet.com/blog/simulate-the-proscenic-m6-pro-robot-vacuum-in-gazebo-with-ros-2/) — the tested sim this forks from, and the template for the new OOMWOO write-up.
 - [makerspet/oomwoo_urdf](https://github.com/makerspet/oomwoo_urdf) — OOMWOO URDF package + config.
+- [ROS2 software interfaces](../../docs/SOFTWARE_INTERFACES.md) — shared topic/action/service contract this simulation should provide.
 - [makerspet/oomwoo-install](https://github.com/makerspet/oomwoo-install) — builds the OOMWOO ROS2 Docker image(s).
 - [Project discussions](https://github.com/makerspet/oomwoo/discussions?discussions_q=) · [Discord](https://discord.gg/3y2JKz5T25)
 

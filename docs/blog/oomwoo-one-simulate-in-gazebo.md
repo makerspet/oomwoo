@@ -103,8 +103,8 @@ drives there on its own.
 ## 10. Check the bumper sensors
 
 ```
-ros2 topic echo /bumper_left/contact
-ros2 topic echo /bumper_right/contact
+ros2 topic echo /bumper_left
+ros2 topic echo /bumper_right
 ```
 Drive into a wall and watch the left/right contact events fire.
 

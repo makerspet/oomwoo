@@ -32,14 +32,43 @@ You don't need to be a roboticist to contribute:
    [Issue](https://github.com/makerspet/oomwoo/issues) or
    [Discussion](https://github.com/makerspet/oomwoo/discussions) before writing
    code, so we align on the approach and avoid wasted effort.
-3. *Work in the module folder.* Put your attempt under
-   `<module>/<your-username>/` and keep it interface-compliant. Multiple attempts
-   per module are welcome — modules are swappable, and a design that isn't
-   selected is still a useful exercise and a fallback.
-4. *Fork* the repo and create a branch for your change.
-5. *Keep pull requests focused.* One logical change per PR is easier to review
-   and merge than a large mixed one.
-6. *Open the PR* with a short description of what it does and why.
+3. *Build it in your own repo.* For code and simulation modules, develop your
+   package in your **own public repository** — you own it, version it, and keep the
+   credit. Build against the ROS2 interface contract in
+   [SOFTWARE_INTERFACES.md](SOFTWARE_INTERFACES.md) so your work stays interoperable
+   with other modules. (Docs and small reference material are handled differently —
+   see below.)
+4. *Submit a pointer PR.* Add a link to your repo in the module's entry with a
+   one-line description. It's small, easy to review, and lets several
+   implementations of the same module sit side by side. Keep the PR focused.
+5. *Iterate in the open.* Modules are swappable — the best implementation surfaces
+   over time, with the maintainer having the last call. A design that isn't
+   selected is still a useful fallback.
+
+## How contributions are structured
+
+OOMWOO keeps the core small and lets the community grow around it:
+
+- *Canonical / reference code stays first-party.* [oomwoo-one](https://github.com/makerspet/oomwoo-one)
+  (robot description + sim), [oomwoo-install](https://github.com/makerspet/oomwoo-install)
+  (dev environment), and the `kaiaai_*` packages are maintained by the project so the
+  out-of-the-box build always works.
+- *Module implementations (code) live in your repo.* You build a competing
+  implementation of a module — a sim, a navigation stack, a behavior — in your own
+  repository and submit a *link*. The project features accepted work from the
+  module's page, credited to you. When a contribution is *featured*, we pin a
+  specific commit or tag (and may fork it into the makerspet org) so the reference
+  build stays reproducible even if the upstream repo moves.
+- *Docs, specs and small reference material stay in-tree.* Part specifications,
+  datasheets, STEP-model sourcing notes, PCB notes, and benchmarks are lightweight
+  and best kept alongside the project — contribute those under
+  `contributions/<module>/<your-username>/` as files in a PR.
+
+Why links for code? You keep ownership, credit, and freedom to iterate; the project
+stays lean and avoids absorbing third-party code and its licensing; and multiple
+implementations of a module can coexist and be compared. The shared
+[SOFTWARE_INTERFACES.md](SOFTWARE_INTERFACES.md) contract is what keeps
+independently-built modules compatible.
 
 ## Hardware contributions
 

@@ -65,15 +65,20 @@ Would you like to contribute? See [CONTRIBUTING](docs/CONTRIBUTING.md) for the f
 OOMWOO is organized to built by the community, massively *in parallel*.
 The vacuum and its software are subdivided into [modules](#requests-for-contributions), see list below.
 
-A volunteer picks whatever module she wants, works on that module whenever she wants,
-submits her contribution as a PR under contributions/module-name/<her-github-username>.
+A volunteer picks whatever module she wants and works on it whenever she wants.
+For *code and simulation* modules she builds her package in her *own repo* and sends
+a short PR *linking* it from the module; for *docs and specs* she contributes files
+in-tree under `contributions/module-name/<her-github-username>`. See
+[CONTRIBUTING](docs/CONTRIBUTING.md) for how this works.
 
 Multiple developers are welcome to work on the same module.
-The best solution for each module surfaces for over time, with the project master having the last call.
+The best solution for each module surfaces over time, with the project master having the last call.
 
 1. Pick a contribution from the [list below](#requests-for-contributions).
 2. [Let us know](https://github.com/makerspet/oomwoo/discussions) you're working on it and your progress.
-3. Check [ARCHITECTURE.md](docs/ARCHITECTURE.md) for the system design and interfaces.
+3. Check [ARCHITECTURE.md](docs/ARCHITECTURE.md) and
+   [SOFTWARE_INTERFACES.md](docs/SOFTWARE_INTERFACES.md) for the system design
+   and ROS2 interfaces.
 
 ## Requests for Contributions
 
@@ -81,7 +86,8 @@ Every module below is *actionable now* — build it against the Gazebo simulatio
 ([oomwoo-one](https://github.com/makerspet/oomwoo-one)) or a real *placeholder robot*
 (a [Proscenic M6 Pro connected to ROS2](https://makerspet.com/blog/tutorial-connect-robot-vacuum-cleaner-to-ros-2-proscenic-m6-pro/)),
 until OOMWOO hardware is ready. Pick one, tell us in
-[Discussions](https://github.com/makerspet/oomwoo/discussions), and open a PR.
+[Discussions](https://github.com/makerspet/oomwoo/discussions), build it in your own
+repo (docs and specs go in-tree), and send a short PR linking it from the module.
 
 | Module | ID | Status | Notes |
 |---|---|---|---|
@@ -90,6 +96,7 @@ until OOMWOO hardware is ready. Pick one, tell us in
 | Localization & navigation on a known map | [nav-localize](./contributions/nav-localize) | Ready to start work | Nav2 nav, AMCL localization, relocalize when lost, resume map |
 | Dock cycle: undock, dock, recharge | [dock-cycle](./contributions/dock-cycle) | Ready to start work | Undock, return-to-dock, precise docking, station services, find dock when lost |
 | Recovery behaviors & safety | [recovery-safety](./contributions/recovery-safety) | Ready to start work | Recovery ladder, escalation, pause-and-alert, safety sensors, status reporting |
+| Compute benchmark & memory reduction | [compute-benchmark](./contributions/compute-benchmark) | In progress | Measure ROS2/Nav2/SLAM memory, compare composable nodes, and track the 4 GB -> 2 GB target |
 | Floor-surface handling & edge cleaning | [floor-care](./contributions/floor-care) | Ready to start work | Wall/edge following, carpet vs hardwood, mop lift/lower |
 | Cleaning modes, zones & job orchestration | [cleaning-jobs](./contributions/cleaning-jobs) | Ready to start work | Modes (regular/spot), virtual walls, room segmentation, job splitting + resume |
 | Live robot bring-up & validation | [live-robot-bringup](./contributions/live-robot-bringup) | Ready to start work | Connect the placeholder Proscenic M6 Pro to ROS2, re-run sim tests on hardware |

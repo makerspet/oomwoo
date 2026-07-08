@@ -23,6 +23,7 @@ cost is paid once.
 - [remakeai/vacuum_ros2_bridge](https://github.com/remakeai/vacuum_ros2_bridge) — ROS2 bridge for a 3irobotix CRL-200-based vacuum (Proscenic), full ROS2 control.
 - [codetiger/VacuumTiger](https://github.com/codetiger/VacuumTiger) — 3irobotix CRL-200-based low-level control, reverse engineered.
 - The behavior RFCs whose tests you re-run on hardware: [clean-and-map](../clean-and-map), [nav-localize](../nav-localize), [dock-cycle](../dock-cycle), [recovery-safety](../recovery-safety), [floor-care](../floor-care), [cleaning-jobs](../cleaning-jobs).
+- [ROS2 software interfaces](../../docs/SOFTWARE_INTERFACES.md) — shared topic/action/service contract that hardware bring-up should validate.
 - [OOMWOO ROS2 development](https://github.com/makerspet/oomwoo-install) — build OOMWOO ROS2 Docker image(s) with your packages.
 - [Project discussions](https://github.com/makerspet/oomwoo/discussions?discussions_q=)
 - [Discord server](https://discord.gg/3y2JKz5T25)
