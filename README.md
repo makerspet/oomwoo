@@ -91,7 +91,7 @@ repo (docs and specs go in-tree), and send a short PR linking it from the module
 
 | Module | ID | Status | Notes |
 |---|---|---|---|
-| ROS2 URDF + Gazebo sim | [urdf-gazebo-sim](./contributions/urdf-gazebo-sim) | In progress | Placeholder URDF + Gazebo sim (reference: [oomwoo-one](https://github.com/makerspet/oomwoo-one); [@alvarosamudio](./contributions/urdf-gazebo-sim/alvarosamudio) merged), refined when hardware lands |
+| ROS2 URDF + Gazebo sim | [urdf-gazebo-sim](./contributions/urdf-gazebo-sim) | In progress | Placeholder URDF + Gazebo sim (reference: [oomwoo-one](https://github.com/makerspet/oomwoo-one); [@alvarosamudio](https://github.com/alvarosamudio/oomwoo_gazebo) featured), refined when hardware lands |
 | First clean: coverage + mapping + exploration | [clean-and-map](./contributions/clean-and-map) | Ready to start work | Coverage cleaning while SLAM-mapping and exploring |
 | Localization & navigation on a known map | [nav-localize](./contributions/nav-localize) | Ready to start work | Nav2 nav, AMCL localization, relocalize when lost, resume map |
 | Dock cycle: undock, dock, recharge | [dock-cycle](./contributions/dock-cycle) | Ready to start work | Undock, return-to-dock, precise docking, station services, find dock when lost |
