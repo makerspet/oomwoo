@@ -17,7 +17,7 @@ OOMWOO is an *open-source home robot vacuum* you can build yourself, made for th
 Raspberry Pi, ROS2, Home Assistant, and 3D-printing communities. It uses an
 affordable 2D LiDAR to map your home and navigate on its own. Local, no
 cloud required for regular functionality, no vendor lock-in. Follow us building in public
-[Discord](https://discord.gg/3y2JKz5T25) | [X](https://x.com/@0OMWO0) | [Reddit](https://www.reddit.com/r/oomwoo/) | [newsletter](https://stats.sender.net/forms/bo2rAK/view) | [YouTube](https://www.youtube.com/@makerspet) | [oomwoo.com](oomwoo.com) | [Tutorials](https://makerspet.com/learn/)
+[Discord](https://discord.gg/3y2JKz5T25) | [X](https://x.com/@0OMWO0) | [Instagram](https://www.instagram.com/oomw0o/) | [Facebook](https://www.facebook.com/profile.php?id=61591466775035) | [Reddit](https://www.reddit.com/r/oomwoo/) | [newsletter](https://stats.sender.net/forms/bo2rAK/view) | [YouTube](https://www.youtube.com/@makerspet) | [oomwoo.com](oomwoo.com) | [Tutorials](https://makerspet.com/learn/)
 
 Reference design images - this is approximately how the finished design will look:
 
@@ -91,7 +91,7 @@ repo (docs and specs go in-tree), and send a short PR linking it from the module
 
 | Module | ID | Status | Notes |
 |---|---|---|---|
-| ROS2 URDF + Gazebo sim | [urdf-gazebo-sim](./contributions/urdf-gazebo-sim) | In progress | Placeholder URDF + Gazebo sim (reference: [oomwoo-one](https://github.com/makerspet/oomwoo-one); [@alvarosamudio](./contributions/urdf-gazebo-sim/alvarosamudio) merged), refined when hardware lands |
+| ROS2 URDF + Gazebo sim | [urdf-gazebo-sim](./contributions/urdf-gazebo-sim) | In progress | Placeholder URDF + Gazebo sim (reference: [oomwoo-one](https://github.com/makerspet/oomwoo-one); [@alvarosamudio](https://github.com/alvarosamudio/oomwoo_gazebo) featured), refined when hardware lands |
 | First clean: coverage + mapping + exploration | [clean-and-map](./contributions/clean-and-map) | Ready to start work | Coverage cleaning while SLAM-mapping and exploring |
 | Localization & navigation on a known map | [nav-localize](./contributions/nav-localize) | Ready to start work | Nav2 nav, AMCL localization, relocalize when lost, resume map |
 | Dock cycle: undock, dock, recharge | [dock-cycle](./contributions/dock-cycle) | Ready to start work | Undock, return-to-dock, precise docking, station services, find dock when lost |

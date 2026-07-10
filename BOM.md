@@ -43,6 +43,10 @@ Retail / low-qty prices, INCLUDES shipping, excludes tax. Read [how I calculate 
 |           |   | $14-32 | Xiaomi LDS02RR, LDS01RR | Fits Roborock S5/S50/51/55/S6/S7, S502-00/01/02/03, S550-00, S5 Max, S6 MaxV/Pure, S45 Max, S7 Max, Xiaomi Mi 1s [AliExpress](https://www.aliexpress.us/w/wholesale-roborock-s5-lds.html) / [Amazon](https://www.amazon.com/s?k=roborock+s5+lds) / [eBay](https://www.ebay.com/sch/i.html?_nkw=roborock+s5+lds) |
 |           |   | $13-25 | 3irobotix Delta-2A/B/G | Fits Xiaomi Mijia Mop P Pro, Mop 2S, 3C S10, S12 T12 [AliExpress](https://www.aliexpress.us/w/wholesale-xiaomi-mop-lds.html) / [Amazon](https://www.amazon.com/s?k=xiaomi+mop+lds) / [eBay](https://www.ebay.com/sch/i.html?_nkw=xiaomi+mop+lds) |
 |           |   | $13-23 | Possibly LDROBOT LD14P | Fits Dreame X30 X40 Series, Xiaomi Mijia X20 Plus, Mop2 [AliExpress](https://www.aliexpress.us/w/wholesale-dreame-x30-lds.html) / [Amazon](https://www.amazon.com/s?k=dreame+x30+lds) / [eBay](https://www.ebay.com/sch/i.html?_nkw=dreame+x30+lds) |
+| Compute Module | 1 | $95 | Raspberry Pi CM4 ≥4 GB | CM4104000 [PiShop](https://www.pishop.us/product/raspberry-pi-compute-module-4-wireless-4gb-lite-cm4104000/) [Newark](https://www.newark.com/raspberry-pi/cm4104000/rpi-compute-module-4-lite-4gb/dp/86AH2101) [DigiKey](https://www.digikey.com/en/products/detail/raspberry-pi/SC0671/13530944) CM4104008 [Newark](https://www.newark.com/raspberry-pi/cm4104008/rpi-module-4-4gb-ram-8gb-emmc/dp/86AH2103) CM4104016 CM4104032 |
+|                |   | $72.50 | Raspberry Pi CM5 ≥4 GB | CM5102000 [PiShop](https://www.pishop.us/product/raspberry-pi-compute-module-5-wireless-4gb-ram-lite-cm5104000/) [Newark](https://www.newark.com/raspberry-pi/cm5104000/som-rpi-compute-mod-5-lite-2gb/dp/20AM3783) [DigiKey](https://www.digikey.com/en/products/detail/raspberry-pi/SC1592/25805568) CM5102016 CM5102032 CM5104064 |
+|                |   | $62.50*  | Raspberry Pi CM4 ≥2 GB | *if software fits CM4102000 [PiShop](https://www.pishop.us/product/raspberry-pi-compute-module-4-wireless-2gb-lite-cm4102000/) [Newark](https://www.digikey.com/en/products/detail/raspberry-pi/SC0667/13530921) [DigiKey](https://www.newark.com/raspberry-pi/cm4102000/rpi-compute-module-4-lite-2gb/dp/86AH2093) CM4102008 CM4102016 CM4102032 |
+|                |   | $72.50* | Raspberry Pi CM5 ≥2 GB | *if software fits CM5102000 [PiShop](https://www.pishop.us/product/raspberry-pi-compute-module-5-wireless-2gb-ram-lite-cm5102000/) [Newark](https://www.newark.com/raspberry-pi/cm5102000/som-rpi-compute-mod-5-lite-2gb/dp/20AM3775) [DigiKey](https://www.digikey.com/en/products/detail/raspberry-pi/SC1586/25805584) CM5102016 CM5102032 CM5104064 |
 | Main brush motor, gearbox | 1 | TBD | TBD | |
 | Side brush + motor | 1–2 | 3–8 | fixed (extendable is later) | |
 | Mop spin motor(s) + pads | 1–2 | 6–15 | mopping models only | |
@@ -58,7 +62,6 @@ Retail / low-qty prices, INCLUDES shipping, excludes tax. Read [how I calculate 
 | Wiring, connectors, fasteners, magnets, gaskets, filter | — | 12–25 | | |
 | Printed parts (filament) | — | 5–15 | you print these yourself | |
 | *Robot subtotal (sourced parts)* | | *~$130–270* | excludes SBC | |
-| Raspberry Pi 5 (4 GB) | 1 | ~60 | the SBC | |
 
 > *Fan sourcing caveat:* the *kPa is the fan's own rating* — verify it against the fan's
 > model number / datasheet. The vacuum models are a *sourcing search aid only*: a fan listed
