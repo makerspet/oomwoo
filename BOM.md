@@ -50,7 +50,11 @@ Retail / low-qty prices, INCLUDES shipping, excludes tax. Read [how I calculate 
 | Cliff sensors | 4 | $1.50-2.50 ea | 4x cliff + 2x bumper w/cables bundle | iRobot Roomba 500 600 700 800 528 552 564 595 560 570 610 615 620 625 630 650 [AliExpress](https://www.aliexpress.us/w/wholesale-irobot-roomba-500-cliff.html) / [Amazon](https://www.amazon.com/s?k=irobot+roomba+500+cliff) / [eBay](https://www.ebay.com/sch/i.html?_nkw=irobot+roomba+500+cliff) |
 | Bumper switches | 2 | $0 | Included in cliff sensors bundle | |
 | Main brush motor, gearbox | 1 | $7-11 | Requires brush socket adapter | Fits Roborock S5, S50, S51, S52, 55 502-00/01/02/03**S552-00, S6; Xiaowa C10, E20, E25, E35 [AliExpress](https://www.aliexpress.us/w/wholesale-roborock-s5-main-brush-motor.html) / [Amazon](https://www.amazon.com/s?k=roborock+s5+main+brush+motor) / [eBay](https://www.ebay.com/sch/i.html?_nkw=roborock+s5+main+brush+motor) |
-| Side brush + motor | 1–2 | 3–8 | fixed (extendable is later) | |
+| Side brush | 1 | $2-8 | 5-arm | Used in Roborock S5, S50, S51, S55, S6, S60, S6 Pure; fits many other Roborock models [AliExpress](https://www.aliexpress.us/w/wholesale-roborock-s5-side-brush.html) / [Amazon](https://www.amazon.com/s?k=roborock+s5+side+brush) / [eBay](https://www.ebay.com/sch/i.html?_nkw=roborock+s5+side+brush) |
+|            |   | $3-9 | 3-arm | Used in Roborock S8; fits many other Roborock models [AliExpress](https://www.aliexpress.us/w/wholesale-roborock-s8-side-brush.html) / [Amazon](https://www.amazon.com/s?k=roborock+s8+side+brush) / [eBay](https://www.ebay.com/sch/i.html?_nkw=roborock+s8+side+brush) |
+|            |   | $3-7 | 2-arm curved | Used in Roborock Saros; possibly fits many other Roborock models [AliExpress](https://www.aliexpress.us/w/wholesale-roborock-saros-side-brush.html) / [Amazon](https://www.amazon.com/s?k=roborock+saros+side+brush) / [eBay](https://www.ebay.com/sch/i.html?_nkw=roborock+saros+side+brush) |
+| Side brush motor | 1 |  | Fixed | |
+|                  | 1 |  | Extendable | |
 | Mop spin motor(s) + pads | 1–2 | 6–15 | mopping models only | |
 | Water pump + valve + tubing | 1 | 4–10 | mopping models only | |
 | Mop lift servo | 1 | 2–6 | mopping models only | |
@@ -58,6 +62,7 @@ Retail / low-qty prices, INCLUDES shipping, excludes tax. Read [how I calculate 
 | Color camera | 1 | 5–15 | connects to the SBC | |
 | Side proximity sensors | 3–4 | 3–8 | | |
 | Ultrasonic carpet sensor | 1 | 2–5 | | |
+| LiDAR tower bumper sensor | 2 | TODO | Microswitches | |
 | Speaker + amp, mic, LEDs, buttons | — | 3–8 | | |
 | Custom I/O PCB | 1 | 20–40 | STM32 + motor drivers + sensor front-ends | |
 | Wiring, connectors, fasteners, magnets, gaskets, filter | — | 12–25 | | |
