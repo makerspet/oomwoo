@@ -93,7 +93,9 @@ repo (docs and specs go in-tree), and send a short PR linking it from the module
 |---|---|---|---|
 | ROS2 URDF + Gazebo sim | [urdf-gazebo-sim](./contributions/urdf-gazebo-sim) | In progress | Placeholder URDF + Gazebo sim (reference: [oomwoo-one](https://github.com/makerspet/oomwoo-one); [@alvarosamudio](https://github.com/alvarosamudio/oomwoo_gazebo) featured), refined when hardware lands |
 | First clean: coverage + mapping + exploration | [clean-and-map](./contributions/clean-and-map) | Ready to start work | Coverage cleaning while SLAM-mapping and exploring |
-| Localization & navigation on a known map | [nav-localize](./contributions/nav-localize) | Ready to start work | Nav2 nav, AMCL localization, relocalize when lost, resume map |
+| Auto cleaning |  | In progress | Clean the entire room using an existing map (using coverage path planning) |
+| Regression tests |  | In progress | Set up simulatior regression test framework (auto cleaning in Gazebo) |
+| Localization & navigation on a known map | [nav-localize](./contributions/nav-localize) | In progress | Nav2 nav, AMCL localization, relocalize when lost, resume map |
 | Dock cycle: undock, dock, recharge | [dock-cycle](./contributions/dock-cycle) | Ready to start work | Undock, return-to-dock, precise docking, station services, find dock when lost |
 | Recovery behaviors & safety | [recovery-safety](./contributions/recovery-safety) | Ready to start work | Recovery ladder, escalation, pause-and-alert, safety sensors, status reporting |
 | Compute benchmark & memory reduction | [compute-benchmark](./contributions/compute-benchmark) | In progress | Measure ROS2/Nav2/SLAM memory, compare composable nodes, and track the 4 GB -> 2 GB target |
@@ -103,6 +105,7 @@ repo (docs and specs go in-tree), and send a short PR linking it from the module
 | Source 3D models (STEP) for BOM parts | [source-3d-models](./contributions/source-3d-models) | In progress | Obtain / measure / model STEP files of off-the-shelf parts (wheels, fans, caster…) so mounts fit |
 | Procure part specs & datasheets | [part-specs](./contributions/part-specs) | In progress | Find/measure/reverse-engineer specs (pinouts, encoder PPR, torque, how to drive fans…) for sourced parts |
 | I/O + motor-driver PCB | [io-pcb](./contributions/io-pcb) | In progress | I/O board with CM4/CM5 socket, STM32G070 MCU - motors, sensors, 4S2P charging, safety, FreeRTOS, custom serial to CM4/CM5, 2D LiDAR header, IMU, audio serial/amp/speaker, MIPI camera(s) i/f; KiCad, JLCPCB |
+| Fit software into 2GB RAM | [compute-benchmark](./contributions/compute-benchmark) | In progress | ROS2 node composition, Rust; remove Gazebo, desktop UI |
 
 > Planned and on-hold modules (mechanical design, later-phase software) live in the
 > [RFC backlog](docs/RFC_BACKLOG.md).
@@ -164,5 +167,10 @@ Code is released under the [Apache License 2.0](LICENSE).
 Hardware design files, once added, to be released under an open hardware
 license (TBD).
 
-## Star History
-[![Star History Chart](https://api.star-history.com/svg?repos=makerspet/oomwoo&type=Date)](https://star-history.com/#makerspet/oomwoo&Date)
+<a href="https://www.star-history.com/?type=date&repos=makerspet%2Foomwoo">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=makerspet/oomwoo&type=date&theme=dark&legend=top-left&sealed_token=_pwRsmK4mVgCA-wKPZeTQOv6tMzrsQLXFfDoOVMTu1hralpzmceqsNPdBJLLFUfct1DSWAvFA9QaH7KIYC5aiVuC6IXHO76GC8BQlLPlJZB67Vvj6AiwS9neO5174BaYtLDETkKmv9_M8IYiGhFSHHUf29kTBt5pUhW6HQcLpPjQ0GufF2KDPONMJdzV" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=makerspet/oomwoo&type=date&legend=top-left&sealed_token=_pwRsmK4mVgCA-wKPZeTQOv6tMzrsQLXFfDoOVMTu1hralpzmceqsNPdBJLLFUfct1DSWAvFA9QaH7KIYC5aiVuC6IXHO76GC8BQlLPlJZB67Vvj6AiwS9neO5174BaYtLDETkKmv9_M8IYiGhFSHHUf29kTBt5pUhW6HQcLpPjQ0GufF2KDPONMJdzV" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=makerspet/oomwoo&type=date&legend=top-left&sealed_token=_pwRsmK4mVgCA-wKPZeTQOv6tMzrsQLXFfDoOVMTu1hralpzmceqsNPdBJLLFUfct1DSWAvFA9QaH7KIYC5aiVuC6IXHO76GC8BQlLPlJZB67Vvj6AiwS9neO5174BaYtLDETkKmv9_M8IYiGhFSHHUf29kTBt5pUhW6HQcLpPjQ0GufF2KDPONMJdzV" />
+ </picture>
+</a>
