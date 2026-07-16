@@ -1,7 +1,7 @@
 # Part Specs — Compiled Datasheets & Specifications
 
 > **Contributor:** OsakaTX
-> **Status:** Updated July 7, 2026 — encoder, gearbox, caster, connector findings consolidated from merged PRs, codetiger/VacuumTiger firmware analysis, and verified calibrations
+> **Status:** Updated July 16, 2026 — added side brush motor, side brushes, and charging contacts specs (new BOM items Jul 14-16). Encoder, gearbox, caster, connector findings consolidated from merged PRs, codetiger/VacuumTiger firmware analysis, and verified calibrations
 > **Methodology:** Web research from manufacturer datasheets, public SDKs, open-source reverse-engineering projects (codetiger/VacuumTiger, codetiger/VacuumRobot), physical inspection data from merged contributor PRs (Scowt PR #13), Aliexpress listings, and VacuumTiger firmware empirical calibration
 >
 > 👉 **See the companion file for detailed methodology, derivation, and cross-referencing:**
@@ -411,6 +411,88 @@ Start byte `0xAA`, followed by:
 
 ---
 
+## 7. Side Brush Motor (Roborock S-family)
+
+> **See detailed spec file:** [`side-brush-charging-contacts-specs.md`](side-brush-charging-contacts-specs.md)
+
+### Motor Type — Verified by Physical Teardown
+
+- **Brushed DC motor** (confirmed by Reddit teardown — carbon brushes, coal dust inside)
+- Sintered bronze self-lubricating bushings (not ball bearings)
+- 2-stage plastic gearbox with grease
+- Contact pads TP1/TP2 on motor PCB (simple 2-wire DC connection)
+- Weight: ~150g
+- Robot detects stalls via current sensing and shuts off motor as safety precaution
+
+### Firmware Control (VacuumTiger — verified from source code)
+
+| Parameter | Value | Source |
+|-----------|-------|--------|
+| Command | `CMD_SIDE_BRUSH = 0x69` | `constants.rs` line 19 |
+| Speed format | u8, 0-100% | `packet.rs` line 141-149 |
+| Component ID | `"side_brush"` | `commands.rs` line 75 |
+| Main brush command | `CMD_MAIN_BRUSH = 0x6A` (u8, 0-100%) | `constants.rs` line 20 |
+
+### BOM Variants
+
+| Type | Price | Notes |
+|------|-------|-------|
+| Fixed | $7-10 | Standard for S5/S6/S7 and many other models |
+| Extendable (FlexiArm) | $18-35 | For Qrevo Master/Edge, S8 MaxV Ultra, G20S, V20 |
+
+### Side Brushes
+
+| Type | Price | Notes |
+|------|-------|-------|
+| 5-arm | $2-8 | S5, S50, S51, S55, S6, S60, S6 Pure |
+| 3-arm | $3-9 | S8 and many other models |
+| 2-arm curved | $3-7 | Saros |
+
+Attachment: single Phillips #2 captive screw.
+
+---
+
+## 8. Charging Contacts
+
+> **See detailed spec file:** [`side-brush-charging-contacts-specs.md`](side-brush-charging-contacts-specs.md)
+
+### Robot Side
+
+| Spec | Value |
+|------|-------|
+| Material | Nickel-plated steel strip |
+| Dimensions | ~1mm wide, ~0.1mm thick, ~5cm long |
+| Price | $1.50-2.50 (pair) |
+
+### Dock Side
+
+| Spec | Value |
+|------|-------|
+| Type | Gold-plated pogo pins |
+| Current rating | 4A |
+| Price | TODO (BOM not yet priced) |
+
+### Charging System
+
+| Parameter | Value | Source |
+|-----------|-------|--------|
+| Dock power supply | 20V DC, 1.2A (24W) | Amazon/AliExpress replacement adapter |
+| Dock output at contacts | ~19.8-20V DC | Reddit user measurement |
+| Robot battery | 13.5-15.5V (4S Li-ion, 14.4V nominal) | VacuumTiger `constants.rs` |
+| Charging method | Contact-based (not inductive) | Standard Roborock |
+
+### Firmware Charging Detection (VacuumTiger — verified from source code)
+
+| Parameter | Value | Source |
+|-----------|-------|--------|
+| Charging flags offset | 0x07 (byte 7 in status packet) | `constants.rs` line 62 |
+| Dock connected flag | bit 0 (0x01) | `constants.rs` line 101 |
+| Charging flag | bit 1 (0x02) | `constants.rs` line 100 |
+| Battery voltage offset | 0x08 (raw / 10 = volts) | `constants.rs` line 63 |
+| Charger power command | `CMD_CHARGER_POWER = 0x9B` | `constants.rs` line 51 |
+
+---
+
 ## Summary of Found vs Missing
 
 | Part | Documentation Found | Critical Gaps |
@@ -422,3 +504,8 @@ Start byte `0xAA`, followed by:
 | **IMU (MPU-6050)** | ✅ Full datasheet, I²C interface, pinout | None — standard InvenSense component |
 | **IR cliff sensor** | ✅ TCRT5000 specs, circuit, pinout | None — standard sensor, subject to final BOM choice |
 | **Caster wheel** | ✅ Roomba 4624869 specs (25mm ball-type, push-in); Roborock 9.01.1272/1273 (50mm wheel-type); both passive | ❌ Exact dimensional drawing for chosen variant; ❌ which BOM variant is selected |
+| **Side brush motor** | Brushed DC motor (teardown-verified), 2-stage plastic gearbox, TP1/TP2 contacts, ~150g, CMD 0x69 speed 0-100%, fixed ($7-10) and FlexiArm ($18-35) variants | ❌ Exact voltage, ❌ RPM, ❌ exact gearbox ratio, ❌ connector model |
+| **Side brushes** | 5-arm ($2-8), 3-arm ($3-9), 2-arm curved ($3-7); single Phillips screw attachment | None — standard consumable part |
+| **Charging contacts (robot)** | Nickel-plated steel strip, ~1mm×0.1mm×5cm, $1.50-2.50/pair | None — standard material |
+| **Charging contacts (dock)** | Gold-plated pogo pins, 4A rating; dock outputs 20V 1.2A (24W) | ❌ Exact pogo pin model/part number, ❌ pricing |
+| **Charging system** | CMD_CHARGER_POWER=0x9B, charging flags at offset 0x07 (dock=0x01, charging=0x02), battery voltage at 0x08 | None — firmware-level specs complete |
