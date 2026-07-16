@@ -57,6 +57,7 @@ Retail / low-qty prices, INCLUDES shipping, excludes tax. Read [how I calculate 
 |                  |   | $18-35 | Extendable | FlexiArm fits Roborock Qrevo Master, Qrevo Edge, Qrevo Slim, Qrevo Pro, Qrevo S Pro, S8 MaxV Ultra, S8 Max Ultra, Q55 Pro, G20, G20S, V20 [AliExpress](https://www.aliexpress.us/w/wholesale-roborock-qrevo-side-brush-motor.html) / [Amazon](https://www.amazon.com/s?k=roborock+qrevo+side+brush+motor) / [eBay](https://www.ebay.com/sch/i.html?_nkw=roborock+qrevo+side+brush+motor) |
 | Wall sensor | 1 | $5-10 | Custom PCB | TSOP38238 IR receiver and 940nm IR LED; VL53L7CX a premium option |
 | Carpet sensor | 1 | $6-12 | Ultrasonic 300kHz | Low availability retail [AliExpress](https://www.aliexpress.us/w/wholesale-roborock-carpet-sensor.html) / [Amazon](https://www.amazon.com/s?k=roborock+carpet+sensor) / [eBay](https://www.ebay.com/sch/i.html?_nkw=roborock+carpet+sensor); purchase factory direct instead |
+| Charging contacts | 2 | $1.50-2.50 | Nickel-plated steel strip | ~1mm wide, ~0.1mm thick, ~5cm long [AliExpress](https://www.aliexpress.us/w/wholesale-nickel-strip.html) / [Amazon](https://www.amazon.com/s?k=nickel+strip) / [eBay](https://www.ebay.com/sch/i.html?_nkw=nickel+strip) |
 | Mop spin motor(s) + pads | 1–2 | 6–15 | mopping models only | |
 | Water pump + valve + tubing | 1 | 4–10 | mopping models only | |
 | Mop lift servo | 1 | 2–6 | mopping models only | |
@@ -68,6 +69,12 @@ Retail / low-qty prices, INCLUDES shipping, excludes tax. Read [how I calculate 
 | Wiring, connectors, fasteners, magnets, gaskets, filter | — | 12–25 | | |
 | Printed parts (filament) | — | 5–15 | you print these yourself | |
 | *Robot subtotal (sourced parts)* | | *~$130–270* | excludes SBC | |
+
+Dock
+
+| Item | Qty | ~USD | Notes | Source |
+|---|---|---|---|---|
+| Charging contacts | 2 | TODO | Gold-plated pogo pins 4A | |
 
 > *Fan sourcing caveat:* the *kPa is the fan's own rating* — verify it against the fan's
 > model number / datasheet. The vacuum models are a *sourcing search aid only*: a fan listed
