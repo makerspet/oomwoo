@@ -57,10 +57,9 @@ Retail / low-qty prices, INCLUDES shipping, excludes tax. Read [how I calculate 
 |                  |   | $18-35 | Extendable | FlexiArm fits Roborock Qrevo Master, Qrevo Edge, Qrevo Slim, Qrevo Pro, Qrevo S Pro, S8 MaxV Ultra, S8 Max Ultra, Q55 Pro, G20, G20S, V20 [AliExpress](https://www.aliexpress.us/w/wholesale-roborock-qrevo-side-brush-motor.html) / [Amazon](https://www.amazon.com/s?k=roborock+qrevo+side+brush+motor) / [eBay](https://www.ebay.com/sch/i.html?_nkw=roborock+qrevo+side+brush+motor) |
 | Wall sensor | 1 | $5-10 | Custom PCB | TSOP38238 IR receiver and 940nm IR LED; VL53L7CX a premium option |
 | Carpet sensor | 1 | $6-12 | Ultrasonic 300kHz | Low availability retail [AliExpress](https://www.aliexpress.us/w/wholesale-roborock-carpet-sensor.html) / [Amazon](https://www.amazon.com/s?k=roborock+carpet+sensor) / [eBay](https://www.ebay.com/sch/i.html?_nkw=roborock+carpet+sensor); purchase factory direct instead |
-| Charging contacts | 2 | $1.50-2.50 | Nickel-plated steel strip | ~1mm wide, ~0.1mm thick, ~5cm long [AliExpress](https://www.aliexpress.us/w/wholesale-nickel-strip.html) / [Amazon](https://www.amazon.com/s?k=nickel+strip) / [eBay](https://www.ebay.com/sch/i.html?_nkw=nickel+strip) |
-| Mop spin motor(s) + pads | 1–2 | 6–15 | mopping models only | |
+| Charging contacts | 1 pair | $3-5 | Nickel-plated steel strip | ~1mm wide, ~0.1mm thick, ~5cm long [AliExpress](https://www.aliexpress.us/w/wholesale-nickel-strip.html) / [Amazon](https://www.amazon.com/s?k=nickel+strip) / [eBay](https://www.ebay.com/sch/i.html?_nkw=nickel+strip) |
+| Mop motor assembly | 1 pair | $20 | Spin, lift, one swing | Rare/expensive retail, get 2x $5 RS385 12V motors, 2x $2.50 MG90S, wires, 3D print rest or order factory direct for kit; [AliExpress](https://www.aliexpress.us/w/wholesale-roborock-mop-motor.html) / [Amazon](https://www.amazon.com/s?k=roborock+mop+motor) / [eBay](https://www.ebay.com/sch/i.html?_nkw=roborock+mop+motor) |
 | Water pump + valve + tubing | 1 | 4–10 | mopping models only | |
-| Mop lift servo | 1 | 2–6 | mopping models only | |
 | VL53L7CX multizone ToF | 1 | 8–15 | obstacle detection (90° FoV) | |
 | Color camera | 1 | 5–15 | connects to the SBC | |
 | LiDAR tower bumper sensor | 2 | TODO | Microswitches | |
