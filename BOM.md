@@ -64,23 +64,35 @@ Retail / low-qty prices, INCLUDES shipping, excludes tax. Read [how I calculate 
 | Color camera | 1 | 5–15 | connects to the SBC | |
 | LiDAR tower bumper sensor | 2 | TODO | Microswitches | |
 | Speaker + amp, mic, LEDs, buttons | — | 3–8 | | |
-| Custom I/O PCB | 1 | 20–40 | STM32 + motor drivers + sensor front-ends | |
+| Custom I/O PCB | 1 | ~40 | STM32 + motor drivers + sensor front-ends | |
 | Wiring, connectors, fasteners, magnets, gaskets, filter | — | 12–25 | | |
 | Printed parts (filament) | — | 5–15 | you print these yourself | |
 | *Robot subtotal (sourced parts)* | | *~$130–270* | excludes SBC | |
 
-Dock
+## Dock
 
 | Item | Qty | ~USD | Notes | Source |
 |---|---|---|---|---|
-| Charging contacts | 2 | TODO | Gold-plated pogo pins 4A | |
+| External 24 V DC brick | 1 | 20-25? | ~200–350 W (certified) |  |
+| Dock board | 1 | ~30 | DC inlet + fuse + TVS, ESP32 MCU/WiFi, high-side FET/relay for blower, IR homing beacon, push button(s), robot presence detect, charge contacts FET, pump/fan drivers |  |
+| Suction blower | 1 | 15-40? | 24–25.2 V DC | Stick-vac class (e.g. Dreame M10-E-4 25.2 V/310 W) |
+| Dust container | 1 | n/a | 3D printed |  |
+| Dock exhaust filter | 1 | 3-8? | Washable/HEPA |  |
+| Suction port + gasket | 1 | 2-5 | Need a good seal |  |
+| Clean + dirty water tanks | 1 | n/a | 3D printed, removable |  |
+| Water pumps | 2 | 6-16 | Diaphragm, 12–24 V, clean-feed + dirty-evacuate | |
+| Wash tray | 1 | n/a | 3D printed, removable, w/scrub ribs |  |
+| Level sensors | 2-3 | 2-6 | Float/capacitive; clean-low, dirty-full |  |
+| Tubing, fittings, seals, gaskets, fasteners | 1 | 5-10? |  |  |
+| Blower fan | 1 | 3-8? | Ambient air, no heater for now |  |
+| PTC heater + thermal fuse + thermistor | 1 | 8-20 | Optional later, needs redundant thermal cutoff |  |
+| Duct, alcove, ramp, housing | 1 | n/a | 3D printed |  |
+| Charging contacts | 2-4 | 2-6? | Gold-plated pogo pins ≥4A; rear-vertical, above water line | |
 
 > *Fan sourcing caveat:* the *kPa is the fan's own rating* — verify it against the fan's
 > model number / datasheet. The vacuum models are a *sourcing search aid only*: a fan listed
 > as "fits vacuum X" is *not* necessarily X's original fan (lower-power replacements are sold as
 > compatible for higher-suction models). Omit any model whose known suction contradicts the row.
-
-## Dock (by tier)
 
 Three dock tiers share one robot base, released in order:
 
