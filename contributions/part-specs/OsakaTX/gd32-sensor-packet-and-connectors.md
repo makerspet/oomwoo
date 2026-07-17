@@ -73,6 +73,74 @@ BATTERY_VOLTAGE_MAX = 15.5V (100%)
 percentage = (voltage - 13.5) / (15.5 - 13.5) * 100
 ```
 
+## GD32 Command Set (A33 to GD32)
+
+The 0x15 packet above is the GD32's status **response**. The command (request) side of
+the protocol is a 27-command set. All opcodes below are verified against
+codetiger/VacuumTiger `constants.rs`.
+
+### Serial Configuration
+
+| Parameter | Value |
+|-----------|-------|
+| Port | `/dev/ttyS3` (A33 UART3) |
+| Baud | 115200, 8N1 |
+| Direction | One-way (A33 to GD32 for commands; GD32 to A33 for status) |
+| Status rate | GD32 to A33 at ~110 Hz (~9 ms) |
+| Watchdog | GD32 requires a heartbeat (CMD 0x06) every 20-50 ms or motors stop |
+| Packet format | `[0xFA 0xFB] [LEN] [CMD] [PAYLOAD] [CRC_H] [CRC_L]` |
+| CRC | 16-bit big-endian word-sum checksum |
+| Init | ~5 second wake sequence at boot |
+
+### Complete Command Table
+
+| Hex | Command | Payload | Packet | Usage |
+|-----|---------|---------|--------|-------|
+| 0x04 | MCU Sleep | none | 5 B | Put GD32 to sleep |
+| 0x05 | Wakeup Ack | none | 5 B | Acknowledge GD32 wake |
+| 0x06 | Heartbeat | none | 5 B | Keep-alive (every 20-50 ms) |
+| 0x07 | Version Request | none | 5 B | Request firmware version |
+| 0x08 | Initialize / IMU Zero | none | 5 B | Boot init (no CRC required) |
+| 0x0A | Reset Error Code | none | 5 B | Clear GD32 error flags |
+| 0x0C | Protocol Sync | 1 B (0x01) | 6 B | First cmd at boot, wakes GD32 |
+| 0x0D | Request STM32 Data | none | 5 B | Poll GD32 for extra data |
+| 0x65 | Motor Mode | 1 B | 6 B | 0x00=idle, 0x02=nav mode |
+| **0x66** | **Motor Velocity** | **8 B** | **13 B** | **Primary motion control** |
+| 0x67 | Motor Speed | 4 B | 9 B | Direct wheel speed control |
+| 0x68 | Air Pump (Vacuum) | 2 B | 7 B | Blower 0-100% |
+| 0x69 | Side Brush | 1 B | 6 B | Side brush 0-100% |
+| 0x6A | Main Brush | 1 B | 6 B | Rolling brush 0-100% |
+| 0x6B | Water Pump | 1 B | 6 B | 0=off, 100=full for mop |
+| 0x71 | Lidar PWM | 4 B | 9 B | Lidar motor 0-100% |
+| 0x78 | Cliff IR Control | 1 B | 6 B | 0=off, 1=on |
+| 0x79 | Cliff IR Direction | 1 B | 6 B | Configurable direction |
+| 0x86 | Dock IR Sensor | 1 B | 6 B | Dock detection sensor |
+| 0x8D | Button LED State | 1 B | 6 B | 19 LED modes (0-18) |
+| 0x97 | Lidar Power | 1 B | 6 B | Lidar on/off |
+| 0x99 | Main Board Power | 1 B | 6 B | A33 power on/off |
+| 0x9A | Main Board Restart | none | 5 B | Reset A33 |
+| 0x9B | Charger Power | 1 B | 6 B | Charger rail on/off |
+| 0xA1 | IMU Factory Calibrate | none | 5 B | Trigger IMU calibration |
+| 0xA2 | IMU Calibrate State | none | 5 B | Query calibration status |
+| 0xA3 | Compass Calibrate | none | 5 B | Start compass cal |
+| 0xA4 | Compass Cal State | none | 5 B | Query compass cal status |
+
+### Motor Velocity Command (0x66) Packet Structure
+
+The primary motion-control command:
+
+```
+Packet: FA FB 0C 66 [linear_vel: 4 bytes i32 LE] [angular_vel: 4 bytes i32 LE] [CRC_H CRC_L]
+```
+
+- `linear_vel` = linear velocity (m/s) x 523.0, cast to i32 LE
+- `angular_vel` = angular velocity (rad/s) x 523.0, cast to i32 LE
+
+Example, forward at 0.3 m/s straight: linear = 0.3 x 523 = 157 -> `9D 00 00 00`,
+angular = 0 -> `00 00 00 00`, packet `FA FB 0C 66 9D 00 00 00 00 00 00 00 [CRC]`.
+The 523.0 scale is the same `VELOCITY_TO_DEVICE_UNITS` constant used in the gearbox-ratio
+derivation in `vacuumtiger-verified-specs.md`.
+
 ## J25/J26 Connector Architecture (Updated)
 
 From codetiger/VacuumRobot Component_Diagram.md (Oct 2025):
