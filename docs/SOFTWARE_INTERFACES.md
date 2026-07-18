@@ -127,6 +127,32 @@ standard diagnostic message or a small OOMWOO-specific message package.
 - Command topics should use small queues and should fail safe: stale commands
   must not keep the robot moving.
 
+## Hardware Bridge Draft
+
+The physical robot will expose the simulation-level contract through an MCU
+bridge instead of direct Gazebo plugins. The current draft lives in
+[`contributions/io-board-interface`](../contributions/io-board-interface).
+
+The bridge should translate standard ROS2 commands into the custom CPU/MCU
+serial protocol and publish hardware telemetry back as standard ROS2 topics
+where possible.
+
+| ROS2 interface | Direction | Hardware source/sink |
+|---|---|---|
+| `/cmd_vel` | CPU -> MCU | Bounded drive setpoint with a short expiry. |
+| `/joint_states` | MCU -> CPU | Wheel encoder ticks converted to wheel joint state. |
+| `/odom` | MCU/bridge -> CPU | Optional wheel odometry derived from encoder ticks. |
+| `/battery_state` | MCU -> CPU | Battery voltage/current and charge state. |
+| `/oomwoo/io/bumper` | MCU -> CPU | Bumper bitfield or future OOMWOO message. |
+| `/oomwoo/io/cliff` | MCU -> CPU | Cliff bitfield or future OOMWOO message. |
+| `/oomwoo/io/wheel_drop` | MCU -> CPU | Wheel-drop bitfield or future OOMWOO message. |
+| `/oomwoo/safety/e_stop` | CPU -> MCU | Software e-stop request; MCU remains final safety authority. |
+| `/diagnostics` | MCU/bridge -> CPU | Watchdog, CRC drops, reset reason, fault bits. |
+
+Hard safety events must be handled by the MCU even if ROS2 is down. ROS2 can
+request motion, report state, and run recovery behaviors, but stale CPU
+heartbeats or unsafe sensor states must stop motion at the MCU layer.
+
 ## Validation Checklist
 
 A module submission that depends on the MVP simulation should document how to

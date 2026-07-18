@@ -7,6 +7,15 @@
 > 👉 **See the companion file for detailed methodology, derivation, and cross-referencing:**
 > [`vacuumtiger-verified-specs.md`](vacuumtiger-verified-specs.md)
 
+Detailed companion files:
+
+- [`io-board-wheel-connector-and-caster.md`](io-board-wheel-connector-and-caster.md) — OOMWOO I/O board wheel connector and caster details.
+- [`side-brush-charging-contacts-specs.md`](side-brush-charging-contacts-specs.md) — side brush motor, brushes, and charging contacts.
+- [`wall-carpet-sensor-specs.md`](wall-carpet-sensor-specs.md) — wall and carpet sensor parts.
+- [`io-board-sensors-and-motors-schematic.md`](io-board-sensors-and-motors-schematic.md) — KiCad-derived I/O board sensor and motor circuits.
+- [`roborock-s5-mainboard-ics.md`](roborock-s5-mainboard-ics.md) — Roborock S5 mainboard IC teardown notes.
+- [`gd32-sensor-packet-and-connectors.md`](gd32-sensor-packet-and-connectors.md) — GD32 packet, command, and connector details.
+
 This document compiles the electrical and mechanical specifications found for key BOM
 parts. Each section covers what was found and what is still missing.
 

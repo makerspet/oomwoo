@@ -149,8 +149,9 @@ migrate onto the MCU.
 
 *CPU ↔ MCU link.* A *high-speed serial* channel carries commands/telemetry both
 ways, plus discrete GPIOs — notably the *CPU-reset* line the MCU asserts on missed
-health packets, and CPU power on/off. Any LiDAR supported by `kaiaai/LDS` /
-`lds2d` is interface-compatible.
+health packets, and CPU power on/off. The draft protocol, ROS2 bridge mapping,
+and bringup checklist live in the [io-board-interface RFC](../contributions/io-board-interface).
+Any LiDAR supported by `kaiaai/LDS` / `lds2d` is interface-compatible.
 
 ### 5.5 Two build profiles
 

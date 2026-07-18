@@ -1,3 +1,5 @@
 .private/
 .claude/
 .vscode/
+__pycache__/
+*.pyc
