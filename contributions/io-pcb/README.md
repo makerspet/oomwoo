@@ -1,11 +1,11 @@
 # I/O + Motor-Driver PCB (hardware / KiCad)
 
 The custom board that connects every OOMWOO motor and sensor to the SBC: an STM32 MCU,
-motor drivers, sensor front-ends, and battery charging on one PCB. The MCU runs
-safety-critical firmware and talks to the CM4/CM5 CPU over a custom serial / USB
-link.
+motor drivers, sensor front-ends, and battery charging on one PCB. Proposed
+software-interface contract: the MCU runs safety-critical firmware and talks to
+the CM4/CM5 CPU over a custom serial / USB link.
 
-> *Design basis:* OOMWOO v1 uses a *CM4/CM5-style CPU module* for ROS2, Nav2, SLAM,
+> *Draft design basis:* OOMWOO v1 uses a *CM4/CM5-style CPU module* for ROS2, Nav2, SLAM,
 > so this board is an *I/O + power carrier* — no soldered application processor on it. There is a
 > starting-point reference schematic (an RK3562 + STM32 combined design), but the on-board
 > Rockchip SoC and its whole subsystem are *removed*; only the STM32 I/O side is kept and
