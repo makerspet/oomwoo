@@ -274,20 +274,28 @@ Start byte `0xAA`, followed by:
 | **I²C address** | 0x52 (default) — configurable |
 | **I²C speed** | Up to 1 MHz (fast mode+) |
 | **Supply** | 2.8 V (AVDD), 1.8 V (IOVDD) or 2.8 V (optional) |
-| **Package** | 4.4 × 2.4 × 1.0 mm (LGA-12) |
+| **Package** | 6.4 × 3.0 × 1.6 mm (LGA-16) |
 
 ### Pinout
 
-| Pin | Name | Function |
+> **Correction:** earlier revisions of this section listed an 8-pin LGA-12
+> (4.4 × 2.4 × 1.0 mm) pinout — those were VL53L5CX figures carried over in error.
+> The VL53L7CX (and pin-to-pin-compatible VL53L7CH) is a **16-ball LGA,
+> 6.4 × 3.0 × 1.6 mm**. Key signals below; full per-ball map in ST datasheet
+> DS13865 §2.5.
+
+| Ball | Name | Function |
 |---|---|---|
-| 1 | AVDD | Power (2.8 V) |
-| 2 | GND | Ground |
-| 3 | GPIO1 | Interrupt output (programmable) |
-| 4 | LPn | Low power mode control |
-| 5 | I2C_RST | I²C interface reset (active high) |
-| 6 | SCL | I²C clock |
-| 7 | SDA | I²C data |
-| 8 | IOVDD | I/O voltage (1.8 V or 2.8 V) |
+| B1, B7 | AVDD | 2.8 / 3.3 V analog & VCSEL supply (both must be powered) |
+| A4 | IOVDD | 1.8 / 2.8 / 3.3 V digital & I/O supply |
+| C1, C7 | GND | Ground |
+| C3 | SDA | I²C data (2.2 kΩ pull-up to IOVDD) |
+| C4 | SCL | I²C clock (2.2 kΩ pull-up to IOVDD) |
+| A3 | INT | Interrupt output (open-drain; 47 kΩ pull-up to IOVDD) |
+| A5 | LPn | Comms enable (47 kΩ pull-up to IOVDD) |
+| A1 | I2C_RST | I²C interface reset, active high (tie to GND via 47 kΩ) |
+| B4 | THERMAL_PAD | Tie to ground plane |
+| A2, A6, A7, C2, C5, C6 | Reserved | See DS13865 §2.5 for per-ball tie / no-connect |
 
 ### Interface
 
