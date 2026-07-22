@@ -14,12 +14,51 @@ simulation*; it is later re-validated on hardware in the
 > [placeholder Proscenic M6 Pro](https://makerspet.com/blog/tutorial-connect-robot-vacuum-cleaner-to-ros-2-proscenic-m6-pro/).
 > Say so in the [discussions](https://github.com/makerspet/oomwoo/discussions) so we can coordinate.
 
+# Design direction: reactive, contact-aware recovery (recommended)
+
+Prior art is unanimous: real robot vacuums do **not** escape wedges with
+navigation-stack recoveries. Nav2's `spin` / `backup` are *collision-averse* — they
+check the costmap and refuse to move into the very cells the robot is wedged
+against, so they stall exactly when needed (OOMWOO's own coverage planner already
+documents *"spin/backup recoveries refuse to move there"*). A vacuum is
+*contact-tolerant*: it has a bumper and is meant to touch walls and furniture. The
+recovery it needs is a small **reactive, bumper-driven behavior layer** that runs
+*open-loop and ignores the costmap*, layered **under** the planner and overriding it
+while in contact (subsumption — Brooks, 1986). Coverage plans the open floor; this
+handles near-obstacle. If it grows, this reactive layer can later be split into its
+own `reactive-control` module.
+
+**Proven escape heuristics** — a starting point from iRobot's *multi-mode coverage*
+patents; tune the thresholds in sim. All are keyed on the *bumper pattern*, not the
+costmap:
+
+- *Wedge — bumper held.* If a bumper stays pressed for ~5 s, rotate **away from the
+  pressed side** (a "panic turn") and retry; repeat until it releases. Back off and
+  turn toward the free side — not a blind straight reverse.
+- *Confined pocket — frequent bumps.* Track the running distance between bumps; when
+  it drops below a threshold the robot is boxed in — switch to **bumper
+  edge-following** (touch, small turns into-and-away) to worm out; below a lower
+  threshold, panic-turn.
+- *Stuck / wheels spinning — no bumps.* If the robot travels a long distance with no
+  bump at all, assume it is high-centered / spinning — **spiral**, then panic-turn if
+  still no contact.
+- *Don't re-enter.* Mark the escaped pocket no-go so the sweep / gap-fill doesn't
+  route straight back in (OOMWOO's coverage planner already does a version of this).
+
+The simulated bumpers now publish (`/bumper_left|right/contact`), so this is
+buildable and testable **headless today** — see
+[oomwoo-one sim-bumpers](https://github.com/makerspet/oomwoo-one/blob/main/docs/sim-bumpers.md).
+The same bumper-contact mechanism drives edge cleaning in [floor-care](../floor-care),
+and stack-liveness safety lives in [health-monitor](../health-monitor).
+
 # Important References
 - [clean-and-map RFC](../clean-and-map) and [urdf-gazebo-sim RFC](../urdf-gazebo-sim) — the *bumper* (left / right / front) and any cliff / wheel-drop sensors this package reacts to.
 - [nav-localize RFC](../nav-localize) — pickup / kidnap detection ties into relocalization.
 - [ROS2 software interfaces](../../docs/SOFTWARE_INTERFACES.md) — shared topic/action/service contract for simulation-first modules.
 - [OOMWOO ROS2 development](https://github.com/makerspet/oomwoo-install) — build OOMWOO ROS2 Docker image(s) with your packages.
-- Nav2's behavior/recovery server is a good starting point for composing recoveries.
+- Nav2's behavior/recovery server can *compose* recoveries, but note its `spin` / `backup` are collision-averse (see *Design direction* above) — for wedges, prefer contact-aware escapes.
+- *Prior art — the reactive layer everyone uses:* iRobot behavior-based vacuum control — [multi-mode coverage](https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/6809490) ([7173391](https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/7173391)) and [learned escape behaviors](https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/11656628); Brooks, *A Robust Layered Control System for a Mobile Robot* (subsumption, 1986).
+- *Coverage-planning prior art:* [opennav_coverage](https://github.com/open-navigation/opennav_coverage) (Nav2 / Fields2Cover, open-field focused), Fraunhofer [ipa_room_exploration](https://medium.com/@jjbecomespheh/ros-coverage-path-planning-32ec97ce3c21), and online sensor-based coverage (BA\*, Morse decomposition). [VFH+](https://www.mdpi.com/2077-1312/12/3/412) is a contact-tolerant reactive alternative to costmap avoidance.
 - [Project discussions](https://github.com/makerspet/oomwoo/discussions?discussions_q=)
 - [Discord server](https://discord.gg/3y2JKz5T25)
 
@@ -28,6 +67,7 @@ simulation*; it is later re-validated on hardware in the
 - implement a *recovery ladder*
   - a configurable, ordered set of behaviors, e.g. *back up*, *wiggle / shake free*, *rotate in place*, *clear the costmap*, *nudge*, *try an alternate path*
   - pick the right recovery for the situation (wedged, bumper-jammed, no valid path, localization lost)
+  - for *wedges*, prefer *contact-aware, open-loop* escapes (see *Design direction* above) over Nav2 `spin` / `backup`, which are collision-averse and stall in the wedge; start from the bumper-pattern escape heuristics and tune them in sim
   - post in [Project Discussions](https://github.com/makerspet/oomwoo/discussions?discussions_q=) to let everyone know you're working on it, and post your progress
 - *escalation*
   - if behavior *N* fails, try *N+1*; track attempts per situation so the robot doesn't repeat a recovery forever
