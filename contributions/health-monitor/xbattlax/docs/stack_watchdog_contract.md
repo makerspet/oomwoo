@@ -92,6 +92,11 @@ Fail-safe rules:
 The MCU should soft-stop motors on a short heartbeat miss and assert CPU reset
 only on a sustained miss, matching the architecture draft.
 
+The first ROS2 adapter in this contribution is
+`oomwoo_health_monitor.health_monitor_node`. It consumes the JSON roster and
+component heartbeat topics, publishes stack state every 50 ms, and publishes the
+MCU heartbeat only while the aggregate state allows it.
+
 ## Timing Budget
 
 Choose component freshness so:

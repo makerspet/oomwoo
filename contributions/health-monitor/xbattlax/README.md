@@ -25,11 +25,34 @@ only while the active task is fully healthy.
 
 | File | Purpose |
 |---|---|
-| [`tools/oomwoo_health_monitor.py`](tools/oomwoo_health_monitor.py) | Pure Python stack-health aggregator core. |
+| [`oomwoo_health_monitor/`](oomwoo_health_monitor/) | ROS2 package with the stack-health core and `health_monitor_node`. |
 | [`tools/sim_health_monitor.py`](tools/sim_health_monitor.py) | Deterministic JSONL scenario runner. |
 | [`tests/test_oomwoo_health_monitor.py`](tests/test_oomwoo_health_monitor.py) | Regression tests for arming, stale detection, advisory handling, and roster changes. |
+| [`tests/test_health_monitor_node_adapter.py`](tests/test_health_monitor_node_adapter.py) | ROS2 adapter tests using lightweight stubs. |
 | [`docs/stack_watchdog_contract.md`](docs/stack_watchdog_contract.md) | Detailed heartbeat, roster, aggregate, and MCU behavior contract. |
 | [`docs/recovery_safety_integration.md`](docs/recovery_safety_integration.md) | How recovery-safety should feed the monitor without relying on `/cmd_vel` timeouts. |
+
+## Package
+
+`oomwoo_health_monitor`
+
+Location:
+
+```text
+contributions/health-monitor/xbattlax/oomwoo_health_monitor
+```
+
+## Build
+
+From the OOMWOO ROS2 container:
+
+```bash
+source /opt/ros/jazzy/setup.bash
+cd /workspace
+colcon build \
+  --base-paths contributions/health-monitor/xbattlax/oomwoo_health_monitor \
+  --packages-select oomwoo_health_monitor
+```
 
 ## Test
 
@@ -57,6 +80,28 @@ types are still unsettled:
 - `/oomwoo/health/component`
 - `/oomwoo/health/stack`
 - `/oomwoo/health/mcu_heartbeat`
+
+## Run
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch oomwoo_health_monitor health_monitor.launch.py
+```
+
+Publish a sample roster:
+
+```bash
+ros2 topic pub --once /oomwoo/health/roster std_msgs/msg/String \
+  "{data: '{\"task_id\":\"dock_cycle\",\"components\":[{\"component_id\":\"recovery_safety\",\"critical\":true,\"max_age_sec\":0.5}]}' }"
+```
+
+Publish a sample work-path heartbeat:
+
+```bash
+ros2 topic pub --once /oomwoo/health/component std_msgs/msg/String \
+  "{data: '{\"component_id\":\"recovery_safety\",\"health\":\"ok\",\"stamp_sec\":1.0}' }"
+```
 
 Once the contract stabilizes, these should become typed OOMWOO messages or a
 small adapter around standard diagnostics.
