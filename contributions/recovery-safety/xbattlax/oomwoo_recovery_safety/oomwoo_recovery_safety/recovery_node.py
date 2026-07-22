@@ -19,6 +19,7 @@ class RecoverySafetyNode(Node):
         super().__init__("recovery_safety")
         self._controller = RecoveryController()
         self._active_deadline: float | None = None
+        self._active_twist: Twist | None = None
 
         self._cmd_pub = self.create_publisher(Twist, "cmd_vel", 10)
         self._status_pub = self.create_publisher(String, "oomwoo/status", 10)
@@ -55,11 +56,11 @@ class RecoverySafetyNode(Node):
         outcome = self._parse_outcome(msg.data)
         if outcome == "succeeded":
             self._stop_motion()
-            self._active_deadline = None
+            self._clear_active_behavior()
             self._execute(self._controller.step_succeeded())
         elif outcome == "failed":
             self._stop_motion()
-            self._active_deadline = None
+            self._clear_active_behavior()
             self._execute(self._controller.step_failed("external failure result"))
         else:
             self.get_logger().warn(f"Ignoring unknown behavior outcome: {msg.data}")
@@ -67,39 +68,44 @@ class RecoverySafetyNode(Node):
     def _e_stop_cb(self, msg: Bool):
         if msg.data:
             self._stop_motion()
-            self._active_deadline = None
+            self._clear_active_behavior()
             self._execute(self._controller.trigger(Situation.E_STOP))
 
     def _cliff_cb(self, msg: Bool):
         if msg.data:
             self._stop_motion()
-            self._active_deadline = None
+            self._clear_active_behavior()
             self._execute(self._controller.trigger(Situation.CLIFF))
 
     def _wheel_drop_cb(self, msg: Bool):
         if msg.data:
             self._stop_motion()
-            self._active_deadline = None
+            self._clear_active_behavior()
             self._execute(self._controller.trigger(Situation.WHEEL_DROP))
 
     def _pickup_cb(self, msg: Bool):
         if msg.data:
             self._stop_motion()
-            self._active_deadline = None
+            self._clear_active_behavior()
             self._execute(self._controller.trigger(Situation.PICKUP))
 
     def _reset_cb(self, msg: Bool):
         if msg.data:
             self._stop_motion()
-            self._active_deadline = None
+            self._clear_active_behavior()
             self._execute(self._controller.reset())
 
     def _timer_cb(self):
-        if self._active_deadline is None or monotonic() < self._active_deadline:
+        if self._active_deadline is None:
+            return
+
+        if monotonic() < self._active_deadline:
+            if self._active_twist is not None:
+                self._cmd_pub.publish(self._active_twist)
             return
 
         self._stop_motion()
-        self._active_deadline = None
+        self._clear_active_behavior()
         self._execute(self._controller.step_failed("behavior timeout"))
 
     def _execute(self, decision: Decision):
@@ -112,13 +118,15 @@ class RecoverySafetyNode(Node):
             twist = Twist()
             twist.linear.x = step.linear_x
             twist.angular.z = step.angular_z
+            self._active_twist = twist
             self._cmd_pub.publish(twist)
         elif step.command == "stop":
             self._stop_motion()
         else:
+            self._active_twist = None
             self._publish_command(step.command, step.name)
 
-        self._active_deadline = monotonic() + step.duration_sec
+        self._active_deadline = monotonic() + step.deadline_sec
 
     def _publish_status(self, status):
         self._status_pub.publish(String(data=status.to_json()))
@@ -132,7 +140,12 @@ class RecoverySafetyNode(Node):
         self._command_pub.publish(String(data=json.dumps(payload, sort_keys=True)))
 
     def _stop_motion(self):
+        self._active_twist = None
         self._cmd_pub.publish(Twist())
+
+    def _clear_active_behavior(self):
+        self._active_deadline = None
+        self._active_twist = None
 
     @staticmethod
     def _has_real_contact(msg: Contacts) -> bool:

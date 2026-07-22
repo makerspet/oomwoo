@@ -39,6 +39,15 @@ class RecoveryStep:
     duration_sec: float
     linear_x: float = 0.0
     angular_z: float = 0.0
+    completion_timeout_sec: float | None = None
+
+    @property
+    def deadline_sec(self) -> float:
+        return (
+            self.completion_timeout_sec
+            if self.completion_timeout_sec is not None
+            else self.duration_sec
+        )
 
 
 @dataclass(frozen=True)
@@ -77,29 +86,29 @@ DEFAULT_LADDERS: Mapping[Situation, tuple[RecoveryStep, ...]] = {
         RecoveryStep("back_up", "twist", 0.8, linear_x=-0.12),
         RecoveryStep("rotate_away_from_left_bumper", "twist", 1.0, linear_x=-0.06, angular_z=-0.55),
         RecoveryStep("wiggle_free", "twist", 0.7, linear_x=-0.04, angular_z=0.85),
-        RecoveryStep("clear_costmap", "clear_costmap", 0.1),
+        RecoveryStep("clear_costmap", "clear_costmap", 0.1, completion_timeout_sec=2.0),
     ),
     Situation.BUMPER_RIGHT: (
         RecoveryStep("back_up", "twist", 0.8, linear_x=-0.12),
         RecoveryStep("rotate_away_from_right_bumper", "twist", 1.0, linear_x=-0.06, angular_z=0.55),
         RecoveryStep("wiggle_free", "twist", 0.7, linear_x=-0.04, angular_z=-0.85),
-        RecoveryStep("clear_costmap", "clear_costmap", 0.1),
+        RecoveryStep("clear_costmap", "clear_costmap", 0.1, completion_timeout_sec=2.0),
     ),
     Situation.BUMPER_FRONT: (
         RecoveryStep("back_up", "twist", 0.9, linear_x=-0.14),
         RecoveryStep("rotate_left", "twist", 0.8, angular_z=0.6),
         RecoveryStep("rotate_right", "twist", 0.8, angular_z=-0.6),
-        RecoveryStep("clear_costmap", "clear_costmap", 0.1),
+        RecoveryStep("clear_costmap", "clear_costmap", 0.1, completion_timeout_sec=2.0),
     ),
     Situation.WEDGED: (
         RecoveryStep("back_up", "twist", 1.0, linear_x=-0.12),
         RecoveryStep("wiggle_left", "twist", 0.6, linear_x=-0.04, angular_z=0.9),
         RecoveryStep("wiggle_right", "twist", 0.6, linear_x=-0.04, angular_z=-0.9),
         RecoveryStep("rotate_in_place", "twist", 1.2, angular_z=0.7),
-        RecoveryStep("clear_costmap", "clear_costmap", 0.1),
+        RecoveryStep("clear_costmap", "clear_costmap", 0.1, completion_timeout_sec=2.0),
     ),
     Situation.NO_VALID_PATH: (
-        RecoveryStep("clear_costmap", "clear_costmap", 0.1),
+        RecoveryStep("clear_costmap", "clear_costmap", 0.1, completion_timeout_sec=2.0),
         RecoveryStep("nudge_reverse", "twist", 0.6, linear_x=-0.08),
         RecoveryStep("rotate_in_place", "twist", 1.0, angular_z=0.6),
     ),

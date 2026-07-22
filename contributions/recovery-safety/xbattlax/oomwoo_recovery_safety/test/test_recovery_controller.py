@@ -107,3 +107,13 @@ def test_status_json_shape():
     assert payload["source"] == "oomwoo_recovery_safety"
     assert payload["situation"] == "no_valid_path"
     assert payload["behavior"] == "clear_costmap"
+
+
+def test_external_steps_have_separate_completion_timeout():
+    controller = RecoveryController()
+
+    decision = controller.trigger(Situation.NO_VALID_PATH)
+
+    assert decision.step.name == "clear_costmap"
+    assert decision.step.duration_sec == 0.1
+    assert decision.step.deadline_sec == 2.0

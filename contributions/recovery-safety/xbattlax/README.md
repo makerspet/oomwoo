@@ -78,6 +78,8 @@ The tests cover:
 - e-stop and safety events entering safe pause
 - ignored duplicate triggers while already recovering
 - JSON status shape
+- held `/cmd_vel` publishing so motion recoveries outlive base watchdog timeouts
+- a separate completion timeout for delegated commands such as `clear_costmap`
 
 ## Run
 
@@ -112,6 +114,7 @@ ros2 topic pub --once /oomwoo/safety/e_stop std_msgs/msg/Bool "{data: true}"
   future adapter should call Nav2 costmap clear services directly.
 - Success detection is external for now. If no `succeeded` result arrives before
   a behavior's timeout, the node escalates to the next behavior and eventually
-  pauses.
+  pauses. Twist motions use their motion duration as the timeout; delegated
+  commands can use a longer completion timeout.
 - Cliff, wheel-drop, and pickup are represented as boolean topics until the
   hardware/simulation message contract is finalized.
