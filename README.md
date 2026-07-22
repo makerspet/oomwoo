@@ -25,6 +25,25 @@ Reference design images - this is approximately how the finished design will loo
 ![Reference robot vacuum cleaner bottom](./assets/vacuum_model_bottom.webp)
 ![Reference robot vacuum cleaner - top cover removed](https://github.com/makerspet/oomwoo/blob/main/assets/vacuum-no-top-back.webp)
 
+## Getting started
+
+The quickest way to try OOMWOO is the ROS 2 development environment in Docker — no
+robot, GPU, or display required:
+
+```
+docker pull makerspet/oomwoo:jazzy-dev
+docker run -d --name oomwoo makerspet/oomwoo:jazzy-dev sleep infinity
+docker exec -it oomwoo bash
+```
+
+From there:
+- **Simulate in Gazebo (headless):** [Simulate OOMWOO-One in Gazebo with ROS 2](https://makerspet.com/blog/simulate-oomwoo-one-robot-vacuum-in-gazebo-with-ros-2/)
+- **Run coverage cleaning (agent quickstart):** [Headless sim & coverage cleaning for LLM agents](https://makerspet.com/blog/oomwoo-headless-sim-coverage-cleaning-llm-agents/)
+- **All tutorials:** [makerspet.com/learn](https://makerspet.com/learn/)
+- **Questions & help:** [Discord](https://discord.gg/3y2JKz5T25)
+
+The dev image is built from [oomwoo-install](https://github.com/makerspet/oomwoo-install).
+
 ## Goals
 
 - Affordable, fully open hardware, software and firmware
