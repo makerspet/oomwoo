@@ -160,6 +160,31 @@ Hard safety events must be handled by the MCU even if ROS2 is down. ROS2 can
 request motion, report state, and run recovery behaviors, but stale CPU
 heartbeats or unsafe sensor states must stop motion at the MCU layer.
 
+## Stack Health Monitor Draft
+
+The software stack should expose one aggregate health/deadman path to the MCU
+instead of relying on independent stale-command behavior for every topic.
+
+Initial simulation-first topics can use JSON over `std_msgs/msg/String` until an
+OOMWOO message package exists:
+
+| ROS2 interface | Producer | Consumer | Purpose |
+|---|---|---|---|
+| `/oomwoo/health/roster` | Task launch / job manager | Health monitor | Latched expected-component roster for the active task; marks components critical or advisory. |
+| `/oomwoo/health/component` | Safety-critical nodes | Health monitor | Work-path heartbeat with component id, health level, stamp, and optional detail. |
+| `/oomwoo/health/stack` | Health monitor | Diagnostics / app layer | Aggregated state: no roster, arming, healthy, healthy with advisory faults, or fault. |
+| `/oomwoo/health/mcu_heartbeat` | Health monitor / bridge | MCU bridge | Single stack-health heartbeat forwarded to the MCU only while all expected critical components are fresh and well. |
+
+Fail-safe behavior:
+
+- no roster means no MCU heartbeat
+- a missing, stale, or unhealthy critical component stops the MCU heartbeat
+- advisory component faults are reported but do not stop the robot
+- the monitor has an arming window and withholds the MCU heartbeat until the full
+  critical roster is confirmed healthy
+- component heartbeats must be emitted from useful work paths, not from
+  independent timers that can keep running while the component is wedged
+
 ## Validation Checklist
 
 A module submission that depends on the MVP simulation should document how to
