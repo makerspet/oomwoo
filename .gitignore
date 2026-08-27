@@ -1,3 +1,15 @@
 .private/
 .claude/
 .vscode/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# OOMWOO baseline-observability: generated demo / runtime artifacts (regenerable
+# via scripts/demo_run.sh and scripts/baseline_report.py; contain timestamps and
+# machine-specific paths, so they are not version-controlled).
+contributions/baseline-observability/**/DEMO_*
+contributions/baseline-observability/**/EXAMPLE_*
