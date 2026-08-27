@@ -61,8 +61,10 @@ echo "==> run_metadata_node -> $META_JSON"
 python3 "$PKG_DIR/run_metadata.py" --ros-args \
   -p output_json:="$META_JSON" -p repo_root:=/mnt/e/puppyfangzhen/robot_src &
 PID_META=$!
-sleep 2
-kill $PID_META 2>/dev/null; wait $PID_META 2>/dev/null
+# run_metadata_node is a one-shot: it writes metadata in __init__ then
+# spin_once(~1s) and self-exits. Wait for it instead of killing, so the
+# metadata JSON is always flushed even if DDS cold-start makes rclpy.init() slow.
+wait $PID_META 2>/dev/null
 
 echo "==> demo publisher + metrics_collector (12 s)"
 python3 "$PKG_DIR/scripts/demo_publisher.py" &
