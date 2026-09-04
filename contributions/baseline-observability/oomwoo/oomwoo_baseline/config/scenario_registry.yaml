@@ -1,0 +1,102 @@
+# OOMWOO baseline scenario registry (plan §5.1 test matrix).
+#
+# Every scenario fixes: world file, initial pose, and random seed so
+# experiments are reproducible ("先基线、后优化": fixed world, fixed initial
+# pose, fixed random seed, fixed Git SHA).
+#
+# `world` uses a ROS2 $(find ...) substitution resolved by the bringup launch
+# (package oomwoo_gazebo from contributions/urdf-gazebo-sim). Replace with a
+# concrete path if your workspace layout differs.
+#
+# `initial_pose` is the robot spawn pose in the `map` frame.
+
+default_seed: 42
+
+scenarios:
+  - id: single_room_empty
+    name: "单房间空旷"
+    world: "$(find oomwoo_gazebo)/worlds/single_room_empty.world"
+    initial_pose: {x: 0.0, y: 0.0, yaw: 0.0}
+    seed: 42
+    tags: [mapping, navigation, coverage, baseline]
+    description: >
+      空旷单房间，用于建立建图、导航与覆盖的最基础基线。
+    acceptance: >
+      相同输入重复运行可复现；传感器无异常丢帧；建图与导航成功。
+
+  - id: multi_room
+    name: "多房间"
+    world: "$(find oomwoo_gazebo)/worlds/multi_room.world"
+    initial_pose: {x: 0.0, y: 0.0, yaw: 0.0}
+    seed: 42
+    tags: [mapping, navigation, coverage, rooms]
+    description: >
+      多个连通房间，验证房间连通、分区顺序与跨房间覆盖。
+    acceptance: >
+      可达区域覆盖率 >= 95%；房间连通性正确；跨房间切换次数合理。
+
+  - id: narrow_door_corridor
+    name: "窄门/窄走廊"
+    world: "$(find oomwoo_gazebo)/worlds/narrow_door_corridor.world"
+    initial_pose: {x: 0.0, y: 0.0, yaw: 0.0}
+    seed: 42
+    tags: [navigation, footprint, local_controller]
+    description: >
+      窄门与窄走廊，验证 footprint、膨胀半径与局部控制器稳定性。
+    acceptance: >
+      窄通道无持续振荡；到点成功率 >= 95%；无无限重试。
+
+  - id: furniture_dense
+    name: "家具密集"
+    world: "$(find oomwoo_gazebo)/worlds/furniture_dense.world"
+    initial_pose: {x: 0.0, y: 0.0, yaw: 0.0}
+    seed: 42
+    tags: [navigation, recovery, wedge]
+    description: >
+      家具密集环境，验证局部规划与反复卡困恢复。
+    acceptance: >
+      被卡困时可执行有限恢复并恢复清扫；无无限重试。
+
+  - id: dynamic_pedestrian_pet
+    name: "动态行人/宠物"
+    world: "$(find oomwoo_gazebo)/worlds/dynamic_pedestrian_pet.world"
+    initial_pose: {x: 0.0, y: 0.0, yaw: 0.0}
+    seed: 42
+    tags: [dynamic, obstacle, recovery]
+    description: >
+      动态行人与宠物场景，验证动态障碍层、等待与绕行。
+    acceptance: >
+      动态障碍不导致任务永久中断；障碍消失后及时恢复清扫。
+
+  - id: glass_low_invisible
+    name: "玻璃/低矮/LiDAR 不可见障碍"
+    world: "$(find oomwoo_gazebo)/worlds/glass_low_invisible.world"
+    initial_pose: {x: 0.0, y: 0.0, yaw: 0.0}
+    seed: 42
+    tags: [bumper, obstacle, recovery]
+    description: >
+      玻璃、低矮物体与门槛等 LiDAR 平面看不到的障碍，验证 bumper 建障与重规划。
+    acceptance: >
+      bumper 命中后停止、标记、恢复并绕开；不反复撞击。
+
+  - id: mixed_floor
+    name: "混合地面"
+    world: "$(find oomwoo_gazebo)/worlds/mixed_floor.world"
+    initial_pose: {x: 0.0, y: 0.0, yaw: 0.0}
+    seed: 42
+    tags: [floor, edge, future]
+    description: >
+      混合地面场景，为后续 wall/edge following、地面识别与拖布动作预留接口。
+    acceptance: >
+      接口预留可用；基础导航与覆盖不退化。
+
+  - id: kidnapped_random_pose
+    name: "被抱起/随机初始位姿"
+    world: "$(find oomwoo_gazebo)/worlds/single_room_empty.world"
+    initial_pose: {x: 1.5, y: 1.0, yaw: 1.57}
+    seed: 7
+    tags: [localization, relocalization, recovery]
+    description: >
+      机器人被抱起放到新位置（未知初始位姿），验证全局重定位与任务恢复。
+    acceptance: >
+      重定位收敛且任务可恢复;定位丢失时不出现危险运动。
