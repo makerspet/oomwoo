@@ -1,9 +1,5 @@
 # Bill of Materials (work in progress)
 
-First working BoM is targeted for *mid-July '26*
-
-A final, fully-costed BoM is targeted for *end of August '26*
-
 Blog post - how I'm making this BOM [How-to: Source BOM for OOMWOO Open-Source Vacuum Robot](https://makerspet.com/blog/how-to-source-bom-for-oomwoo-open-source-vacuum-robot/)
 
 Rationale in [docs/design-document.md](docs/design-document.md).
