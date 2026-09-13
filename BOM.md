@@ -70,6 +70,9 @@ Retail / low-qty prices, INCLUDES shipping, excludes tax. Read [how I calculate 
 | Custom I/O PCB | 1 | ~40 | STM32 + motor drivers + sensor front-ends | |
 | Wiring, connectors, fasteners, magnets, gaskets, filter, tubing | — | 12–25 | | |
 | Printed parts (filament) | — | 5–15 | you print these yourself | |
+| Tires | 2 | $2-3 | 57mm ID, 68mm OD, 14mm width | Only needed if building drive wheels from scratch. Fit IRobot Roomba Vacuum 500, 600, 700, 800, 900, E5, E6, i7 Series
+[AliExpress](https://www.aliexpress.us/w/wholesale-roomba-tire-skin.html) / [Amazon](https://www.amazon.com/s?k=roomba+tire+skin) / [eBay](https://www.ebay.com/sch/i.html?_nkw=roomba+tire+skin)
+|
 | *Robot subtotal (sourced parts)* | | *~$130–270* | excludes SBC | |
 
 ## Dock
