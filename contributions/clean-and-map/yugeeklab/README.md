@@ -7,7 +7,7 @@ frontiers until nothing reachable is left, and know when it is done.
 
 | Repo | What | Status |
 |---|---|---|
-| [oomwoo-clean-and-map](https://github.com/yugeeklab/oomwoo-clean-and-map) | ROS 2 Jazzy package: map-completeness meter, SLAM-mode regression harness, coverage-while-mapping behaviour | skeleton + plan |
+| [oomwoo-clean-and-map](https://github.com/yugeeklab/oomwoo-clean-and-map) | ROS 2 Jazzy package: coverage-while-mapping behaviour, map-completeness meter, SLAM-mode launch, an offline planner bench | running on `living_room`, numbers below |
 
 > **Read this first.** Nothing is proven in the target environment yet. This page is
 > a claim plus a plan. Each box below flips only with a measured, reproducible run in
@@ -62,11 +62,43 @@ Dynamic-obstacle yielding stays out of scope, per the steering in discussion #39
 - [x] SLAM-mode launch, headless (no `map_server`, no AMCL)
 - [x] Coverage while mapping, with a done condition that fires, and a map save
 - [x] Bumper-marked obstacles and a peel-off escape
-- [x] Unit tests for the planner geometry (9, no ROS, no simulator)
+- [x] Unit tests for the planner geometry (39, no ROS, no simulator, under a second)
+- [x] An offline planner bench, so a planning change is judged in a second rather
+      than an hour, across seven floor plans
+- [x] Path efficiency: **0.141 -> 0.546** on `living_room`, same finished map
 - [ ] Numbers re-measured on native x86-64 in CI
-- [ ] Several start poses, and a multi-room world (frontier branch still unexercised)
-- [ ] Path efficiency: 0.347 against 0.525 for a known-map sweep
+- [ ] Several start poses in the simulator, and a multi-room world
+      (the frontier branch is still unexercised: in a single room there is always
+      something left to clean, so exploration never has to be chosen)
 - [ ] Videos
+
+## Where it stands
+
+`living_room`, headless. The first version that finished the room, against the
+same task after the path work:
+
+|  | first finishing run | now |
+|---|---|---|
+| coverage | 0.9642 | 0.9035 |
+| path | 302.9 m | 78.0 m |
+| efficiency (ideal / actual) | 0.141 | 0.546 |
+| map known | 1.0000 | 1.0000 |
+| free-space agreement | 0.9876 | 0.9845 |
+| sim time | 3880 s | 1769 s |
+
+Those coverage figures are not comparable as they stand, because the later run
+stopped earlier. Compared at equal coverage, metres driven:
+
+| coverage | before | now |
+|---|---|---|
+| 20 % | 23.4 | 10.9 |
+| 40 % | 50.0 | 26.1 |
+| 60 % | 79.5 | 40.8 |
+| 80 % | 105.9 | 58.8 |
+| 90 % | 121.7 | 76.9 |
+
+The node's own coverage belief tracks the ground-truth grader to about a point,
+which is the gap `coverage_planner`'s docstring flags as missing.
 
 ## Interfaces (planned)
 
