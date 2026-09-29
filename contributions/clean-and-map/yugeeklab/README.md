@@ -2,114 +2,145 @@
 
 Pointer to a self-hosted implementation of the `clean-and-map` RFC, aimed at the part
 the [RFC board](../../README.md) lists as *not started*: **coverage while mapping**.
-Sweep a floor the robot has never seen while slam_toolbox builds the map, explore
-frontiers until nothing reachable is left, and know when it is done.
+The robot starts with no map, sweeps the floor slam_toolbox has drawn so far, replans
+as more of the room appears, decides it is finished and saves the map.
 
-| Repo | What | Status |
-|---|---|---|
-| [oomwoo-clean-and-map](https://github.com/yugeeklab/oomwoo-clean-and-map) | ROS 2 Jazzy package: coverage-while-mapping behaviour, map-completeness meter, SLAM-mode launch, an offline planner bench | running on `living_room`, numbers below |
+| Repo | What |
+|---|---|
+| [oomwoo-clean-and-map](https://github.com/yugeeklab/oomwoo-clean-and-map) | ROS 2 Jazzy package: the coverage-while-mapping behaviour, a map-completeness meter, a SLAM-mode launch, an offline planner bench, 50 geometry tests |
 
-> **Read this first.** Nothing is proven in the target environment yet. This page is
-> a claim plus a plan. Each box below flips only with a measured, reproducible run in
-> the `makerspet/oomwoo:jazzy-dev` image against `oomwoo_one`.
+Coordination thread: [discussion #66](https://github.com/makerspet/oomwoo/discussions/66).
+
+> Every simulated number here was measured on an **arm64 rebuild** of
+> `makerspet/oomwoo:jazzy-dev`, because the published image is amd64 only and this
+> work was done on Apple Silicon. The upstream baseline reproduces on it
+> (`test_room` 96.4 % against 97.0 %); a GitHub Actions job runs the tests and the
+> bench on x86-64 and is how that caveat gets retired.
 
 ## How this relates to the existing work
 
 - [@Arkz-Deepak](../Arkz-Deepak) started clean-only first (coverage on a known map
-  through `oomwoo_coverage`), as the maintainer suggested. This track starts from the
-  other end, measurement and the mapping side, so the two meet in the middle rather
-  than duplicate each other.
-- Reuses rather than replaces `oomwoo_coverage` (boustrophedon + bumper peel-off) and
-  `oomwoo_sim_support` (ground truth, coverage meter, regression runner) from
-  [oomwoo-ros2-tools](https://github.com/makerspet/oomwoo-ros2-tools).
+  through `oomwoo_coverage`). This track starts from the other end — mapping and
+  measurement — so the two meet in the middle rather than duplicate each other.
+- Reuses rather than replaces `oomwoo_coverage` (boustrophedon geometry, bumper
+  peel-off) and `oomwoo_sim_support` (ground truth, coverage meter, regression
+  runner) from [oomwoo-ros2-tools](https://github.com/makerspet/oomwoo-ros2-tools).
 - Interfaces follow [SOFTWARE_INTERFACES.md](../../../docs/SOFTWARE_INTERFACES.md).
-- Coordination thread: [discussion #66](https://github.com/makerspet/oomwoo/discussions/66).
 
-## Plan
+## Against the acceptance criteria
 
-0. **Baseline.** Reproduce the maintainer's numbers in the dev image
-   (`deploy/run_coverage_regression.sh`, test_room, 90 % gate) and run the interface
-   checklist: `/scan`, `/odom`, `/tf`, `/bumper_left`, `/bumper_right`.
-1. **Map-completeness meter.** The RFC asks for regression tests of *both* coverage
-   and map completeness; the harness has only the first. A sim-only
-   `map_completeness_meter` aligns the SLAM `/map` to the world-aligned reference map
-   through the ground-truth pose and reports free-space agreement, false-occupied area
-   and wall error over the reachable floor. Same shape as `coverage_meter`: `~/ratio`,
-   a `MAP_REPORT` log line, a runner gate.
-2. **SLAM-mode harness.** A `coverage_regression.launch.py` equivalent with no static
-   map: slam_toolbox online async instead of `map_server` + AMCL, several start poses,
-   headless.
-3. **Coverage while mapping.** Incremental boustrophedon over the growing map:
-   re-decompose when new free space appears, nearest frontier as the next target, and
-   a documented **done condition**: no reachable frontier wider than the robot *and*
-   coverage of the known reachable floor above target, both held for T s. Then save
-   the map (`nav2_map_server` and slam_toolbox `serialize_map`).
-4. **Robustness.** Bumper contacts mark LiDAR-invisible obstacles in a persistent
-   layer. Wheel slip on contact (the open problem from discussion #48): measure map
-   corruption with `odom_source:=wheel`, then try gating scans out of slam_toolbox
-   while a bumper is held.
-5. **Worlds and CI.** living_room, multi_room, narrow_passage; several start poses;
-   GitHub Actions running the headless suite.
+| Criterion | State |
+|---|---|
+| No map at start; builds a complete map | **yes** — `known_ratio` 1.0000, free-space agreement 0.985--0.992 in every session |
+| Detects a done condition and saves the map | **yes** — the behaviour ends itself and writes the map |
+| Full coverage of the reachable floor | **mostly** — five sessions of six end at 0.93--0.98; one ended itself at **0.82** (see below) |
+| LiDAR-invisible obstacles: bumper, mark, replan, never stuck | **yes** — contacts mark a no-go, the robot peels off and replans; no session ended wedged |
+| Left / right / front bumper | **yes** — both sim contact sensors, which are the front bumper's two halves |
+| Headless CI regression of coverage *and* map completeness | **partly** — `map_completeness_meter` and the tests exist, the workflow has not been run |
+| Several initial poses | **no** — almost everything so far is the one spawn |
+| Robust to dynamic obstacles | **no** — not tested |
+| Additional multi-room / different floorplan world | **no** — the bench has drawn floor plans, but no Gazebo world |
+| Documented, reproducible by someone else | yes |
 
-Dynamic-obstacle yielding stays out of scope, per the steering in discussion #39.
+The three "no" rows are the honest remaining work, and they are what I would pick up
+next unless the maintainer would rather see something else.
 
-## Progress
+## Where it stands on `living_room`
 
-- [x] Claim posted in Discussions ([#66](https://github.com/makerspet/oomwoo/discussions/66))
-- [x] Baseline reproduced (test_room 96.4 %, living_room 87.7 % — the upstream
-      harness, unmodified, on an arm64 rebuild of the dev image)
-- [x] `map_completeness_meter` scoring the SLAM map against a reference map
-- [x] SLAM-mode launch, headless (no `map_server`, no AMCL)
-- [x] Coverage while mapping, with a done condition that fires, and a map save
-- [x] Bumper-marked obstacles and a peel-off escape
-- [x] Unit tests for the planner geometry (39, no ROS, no simulator, under a second)
-- [x] An offline planner bench, so a planning change is judged in a second rather
-      than an hour, across seven floor plans
-- [x] Path efficiency: **0.141 -> 0.546** on `living_room`, same finished map
-- [ ] Numbers re-measured on native x86-64 in CI
-- [ ] Several start poses in the simulator, and a multi-room world
-      (the frontier branch is still unexercised: in a single room there is always
-      something left to clean, so exploration never has to be chosen)
-- [ ] Videos
+Six sessions, no map at start, headless, scored by `coverage_meter` at
+`cleaning_radius` 0.20 — the value `coverage_regression.launch.py` uses.
 
-## Where it stands
+| | crossing 0.90 at | efficiency there | final coverage |
+|---|---|---|---|
+| best | **47.6 m** | **0.716** | 0.933 |
+| median | 53.4 m | 0.638 | 0.941 |
+| worst that crossed | 64.2 m | 0.530 | 0.980 |
+| one session | never crossed | — | **0.822** |
 
-`living_room`, headless. The first version that finished the room, against the
-same task after the path work:
+For comparison, on the same world and the same harness,
+`deploy/run_coverage_livingroom.sh` with the stock `coverage_planner`:
+**coverage 0.8772, target never crossed, `pass: false`.** This node crosses 0.90
+where upstream's does not reach it.
 
-|  | first finishing run | now |
-|---|---|---|
-| coverage | 0.9642 | 0.9035 |
-| path | 302.9 m | 78.0 m |
-| efficiency (ideal / actual) | 0.141 | 0.546 |
-| map known | 1.0000 | 1.0000 |
-| free-space agreement | 0.9876 | 0.9845 |
-| sim time | 3880 s | 1769 s |
+Neither meets the runner's `efficiency_target`, and the same arithmetic explains
+both — which is the part I think is worth the maintainer's time.
 
-Those coverage figures are not comparable as they stand, because the later run
-stopped earlier. Compared at equal coverage, metres driven:
+### Why 0.80 efficiency is out of reach on this world
 
-| coverage | before | now |
-|---|---|---|
-| 20 % | 23.4 | 10.9 |
-| 40 % | 50.0 | 26.1 |
-| 60 % | 79.5 | 40.8 |
-| 80 % | 105.9 | 58.8 |
-| 90 % | 121.7 | 76.9 |
+Coverage per metre driven is the pass spacing, and the spacing cannot exceed the
+swath. For 90 % of `living_room`'s 13.62 m² at a 0.40 m swath the floor is 30.7 m,
+and the gate allows 42.6 m — 11.9 m for every overhead there is. Measured, at the
+90 % crossing:
 
-The node's own coverage belief tracks the ground-truth grader to about a point,
-which is the gap `coverage_planner`'s docstring flags as missing.
+```
+sweeping                            35.2 m   ← exactly 12.26 m² / 0.35 m spacing
+turn-arounds, 17 of them            + 6.1 m
+travel between furniture-cut pieces + 5.9 m
+                                    ───────
+                                     47.2 m  against a 42.6 m budget
+```
 
-## Interfaces (planned)
+The spacing is 0.35 m rather than the full 0.40 m swath because localisation error
+is 11 mm mean and 26 mm at the ninetieth percentile (`localization_error`, measured
+on these runs), and passes laid exactly one swath apart come apart at the seams.
+Planning at 0.40 m and at 0.35 m across error levels, with contacts modelled, exactly
+one configuration in the table passes — no error at all.
+
+**Upstream takes the wide spacing (`row_overlap` 0.05, an 8-cell step, no real
+overlap) and fails on coverage. This node takes the narrow one, reaches coverage,
+and fails on efficiency. They are the same fact from two sides**, and it is a
+property of a 0.40 m swath against a centimetre of localisation error in a room
+this cluttered, not of either planner. Four planner families and twenty-odd
+variants were measured against it; the working record is in
+[docs/PATH_EFFICIENCY.md](https://github.com/yugeeklab/oomwoo-clean-and-map/blob/main/docs/PATH_EFFICIENCY.md).
+
+### The session that stopped at 0.82
+
+`DONE sweep_complete: belief_coverage=0.8166 frontiers=0 escapes=7`. The map was
+complete and the node's belief agreed with the grader to half a point; it simply
+found nothing left it could plan to. Seven bumper contacts that session, each
+leaving a no-go. That is a real defect in the done condition, not a measurement
+artefact, and it is the first thing to fix.
+
+## Also in the repo
+
+- `map_completeness_meter`, in the shape of `oomwoo_sim_support`'s `coverage_meter`,
+  so map completeness can be gated headless the way coverage already is — the RFC
+  asks for regression tests of both.
+- A SLAM-mode launch: no `map_server`, no AMCL.
+- An **offline planner bench**. A simulated session takes the better part of an hour
+  and two sessions of identical code land 33 % apart, so planner changes are chosen
+  offline and confirmed in the simulator. It imports the node's own `_plan_sweep`,
+  drives the waypoints, and models what the simulator does to them — including
+  hitting things, which is what finally made its numbers agree with the simulator's.
+  It plans on a map slam_toolbox drew and scores against the reference map, because
+  doing both on one map picks the wrong variant.
+- 50 geometry tests needing neither ROS nor a simulator, in under a second.
+
+## Interfaces
 
 | Direction | Name | Type | Note |
 |---|---|---|---|
 | sub | `/scan`, `/odom`, `/tf`, `/map` | standard | from urdf-gazebo-sim and slam_toolbox |
-| sub | `/bumper_left`, `/bumper_right` | `ros_gz_interfaces/msg/Contacts` | behind a small adapter, per the contract |
-| action | `/navigate_to_pose`, `/navigate_through_poses` | Nav2 | motion goes through Nav2; open-loop only during a bump escape, after cancelling the Nav2 goal |
-| pub | `/clean_and_map/status` | `std_msgs/String` (JSON) until an OOMWOO message exists | `state`, `reason_code`, `message`, `recoverable`, `source` |
+| sub | `bumper_left/contact`, `bumper_right/contact` | `ros_gz_interfaces/msg/Contacts` | |
+| action | `/navigate_to_pose` | Nav2 | long or blocked hops; short clear ones are driven on `/cmd_vel`, and the Nav2 goal is cancelled first |
+| pub | `/cmd_vel` | `geometry_msgs/Twist` | pass waypoints and the bump escape |
+| pub | `~/status` | `std_msgs/String` (JSON) | `state`, `reason_code`, `message`, `recoverable`, `source` |
+| pub | `~/cleaning_active` | `std_msgs/Bool` | latched; what `coverage_meter` starts and stops its accounting on |
 | pub | `/map_completeness_meter/ratio` | `std_msgs/Float32` | sim only, ground-truth based |
 
-## Instructions
+## Running it
 
-Install, run and test instructions land with milestone 1, in the self-hosted repo.
+In the `makerspet/oomwoo:jazzy-dev` container:
+
+```bash
+cd /ros_ws/src && git clone https://github.com/yugeeklab/oomwoo-clean-and-map
+cd /ros_ws && colcon build --symlink-install --packages-select oomwoo_clean_and_map
+source install/setup.bash
+ros2 launch oomwoo_clean_and_map clean_and_map.launch.py
+```
+
+`docker/Dockerfile.arm64` rebuilds that image for Apple Silicon.
+`docker/scripts/run_once.sh` runs one session to completion and prints the distance
+split; `docker/scripts/run_ab.sh` runs two configurations alternately, which is what
+the run-to-run spread demands.
