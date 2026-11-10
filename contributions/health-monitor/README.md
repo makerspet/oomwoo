@@ -15,7 +15,7 @@ to be running for the current task; and only then does it emit a *single* "stack
 healthy" heartbeat to the MCU. If any expected component goes stale or unhealthy,
 the aggregate heartbeat stops and the MCU fails the robot safe.
 
-> *Status — design-first, ready to start.* The contracts (heartbeat, roster, MCU
+> *Status — in progress.* See the [RFC board](../README.md) for current progress. The contracts (heartbeat, roster, MCU
 > behavior) can be designed and prototyped now in the Gazebo sim
 > ([urdf-gazebo-sim](../urdf-gazebo-sim)) or on the placeholder Proscenic; the MCU
 > side lands with [mcu-io-firmware](../mcu-io-firmware) /

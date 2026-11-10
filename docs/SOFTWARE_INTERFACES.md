@@ -183,6 +183,10 @@ QoS and clock rules:
   diagnostics consumers.
 - component and MCU heartbeats are reliable and volatile. In particular, an old
   healthy MCU heartbeat must not be replayed to a late subscriber.
+- history depths: roster and stack depth 1; component heartbeat depth 10,
+  because every component shares one topic and a depth of 1 could drop one
+  component's beat behind another's; MCU heartbeat depth 1, so a stalled
+  subscriber never catches up on a queue of old healthy beats.
 - component `stamp_sec` values use the producer node's ROS clock, which must be
   the same clock as the monitor. With `use_sim_time=true`, both follow `/clock`;
   wall-clock and simulation timestamps must not be mixed.
@@ -196,9 +200,52 @@ Fail-safe behavior:
   critical roster is confirmed healthy
 - component heartbeats must be emitted from useful work paths, not from
   independent timers that can keep running while the component is wedged
+- a frozen or backward ROS clock is a fault: the monitor withholds the MCU
+  heartbeat while ROS time is not advancing and re-arms only after a fresh
+  arming window once it advances again
+
+### Draft values
+
+Draft values for review, taken from the reference aggregator, the
+verification kit's measurements and the firmware bring-up policy
+([makerspet/oomwoo-firmware#1](https://github.com/makerspet/oomwoo-firmware/issues/1)).
+They are simulation-validated only; the MCU numbers get re-tuned after measuring
+cutoff latency on the real board.
+
+| Item | Draft value | Notes |
+|---|---|---|
+| Component heartbeat rate | 20 Hz | from the work path; 3 beats per 0.15 s freshness window |
+| Roster `max_age_sec` (critical) | 0.15 s | zero false trips at 0.10-0.50 s under CPU load in sim; the aggregator's built-in default of 0.5 s is a fallback, not the target |
+| Arming window | 0.25 s | full critical roster healthy this long before the first MCU heartbeat |
+| Aggregator period | 50 ms (20 Hz) | `/oomwoo/health/stack` and `/oomwoo/health/mcu_heartbeat` |
+| MCU soft-stop timeout | 150 ms | firmware bring-up value; motors and actuators safe, never a CPU reset |
+| MCU CPU-reset supervision | about 5 min | separate supervisor; long enough for the CPU to boot |
+| Component `sequence` | optional; starts at 1 when the process starts, +1 per work cycle | diagnostic only: freshness comes from `stamp_sec`; a drop back to 1 means the component restarted |
+| MCU heartbeat `sequence` | starts at 1 when the monitor starts, +1 per emitted beat | resets when the monitor restarts, so consumers must not require continuity across restarts |
+
+Timeouts add in series: a dead critical component is noticed after up to
+`max_age_sec` plus one aggregator period, then the MCU waits its own soft-stop
+timeout. With the values above that is about 0.35 s, plus link latency and
+braking. In simulation at 0.2 m/s, the verification kit measured about 0.3 s from
+a killed critical node to zero velocity and about 7 cm of travel (with a 0.2 s
+stand-in soft stop).
+
+MCU heartbeat payload (JSON over `std_msgs/msg/String`, temporary):
+
+```json
+{"sequence": 42, "source": "oomwoo_health_monitor", "stamp_sec": 1234.56,
+ "task_id": "cleaning_job", "stack": {"state": "healthy", "...": "..."}}
+```
+
+The MCU bridge treats each received message as one stack-healthy heartbeat to
+the MCU. It drops a message whose `stamp_sec` is older than one aggregator
+period plus the bridge's own latency budget. `stack` is diagnostic only: the
+bridge must not use it to decide whether to forward.
 
 Reference implementation:
 [xbattlax/health-monitor](https://github.com/xbattlax/health-monitor).
+Verification kit (MCU stand-in, fault-injection tests, timing benchmarks):
+[bilusss/oomwoo-health-kit](https://github.com/bilusss/oomwoo-health-kit).
 
 ## Validation Checklist
 
