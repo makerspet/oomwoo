@@ -233,7 +233,7 @@ stand-in soft stop).
 Nodes joining the graph: "zero false trips" above applies to steady state. In the
 verification kit's kill/restart cycles (Jazzy, Fast DDS 2.14.7, default SHM + UDP
 transports), about 1 restart in 10 was followed by a second MCU soft stop roughly
-0.3 s after re-arm (196 in 1800 restart cycles; about 6% idle and 13-15% under
+0.3 s after re-arm (286 in 2680 restart cycles; about 5% idle and 13% under
 CPU load, at every `max_age_sec` from 0.10 to 0.25 s). The traced cases were a 333 ms sleep in the Fast DDS
 shared-memory port health check (`healthy_check_timeout_ms`, default 1000 ms,
 divided by 3), taken when a node first sends to another node's port; that node's
@@ -241,7 +241,7 @@ publishes stall for about 0.33 s, which is longer than the 150 ms soft-stop
 timeout. A node starting or restarting can therefore cause a brief extra stop
 even though the monitor and the MCU behave correctly, and a longer soft-stop
 timeout does not help. In the same simulation the extra stops did not occur with
-`healthy_check_timeout_ms` set to 60 (0 in 1560 restart cycles, across the same
+`healthy_check_timeout_ms` set to 60 (0 in 2320 restart cycles, across the same
 `max_age_sec` range at 20 and 50 Hz) or with a UDP-only profile (0 in 600).
 Neither is a
 recommendation yet: both are untested on the robot image, on ARM and with the
