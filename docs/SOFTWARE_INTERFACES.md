@@ -214,14 +214,36 @@ cutoff latency on the real board.
 
 | Item | Draft value | Notes |
 |---|---|---|
-| Component heartbeat rate | 20 Hz | from the work path; 3 beats per 0.15 s freshness window |
-| Roster `max_age_sec` (critical) | 0.15 s (provisional) | zero false trips at 0.10-0.50 s under CPU load in sim, in steady-state windows only (see the note on nodes joining below); the aggregator's built-in default of 0.5 s is a fallback, not the target |
+| Component heartbeat rate | the component's own work rate | from the work path; not a separate timer |
+| Roster `max_age_sec`, drive path (critical) | 0.15 s (provisional) | `cmd_vel` chain at 20 Hz, 3 beats per window; zero false trips at 0.10-0.50 s under CPU load in sim, in steady-state windows only (see the note on nodes joining below) |
+| Roster `max_age_sec`, other critical components | about 0.6 s (provisional) | set per component from its rate: in sim `/scan`, `map`->`odom` and the costmaps run at about 5 Hz; the aggregator's built-in default of 0.5 s is a fallback, not the target |
 | Arming window | 0.25 s | full critical roster healthy this long before the first MCU heartbeat |
 | Aggregator period | 50 ms (20 Hz) | `/oomwoo/health/stack` and `/oomwoo/health/mcu_heartbeat` |
 | MCU soft-stop timeout | 150 ms | firmware bring-up value; motors and actuators safe, never a CPU reset |
 | MCU CPU-reset supervision | about 5 min | separate supervisor; long enough for the CPU to boot |
 | Component `sequence` | optional; starts at 1 when the process starts, +1 per work cycle | diagnostic only: freshness comes from `stamp_sec`; a drop back to 1 means the component restarted |
 | MCU heartbeat `sequence` | starts at 1 when the monitor starts, +1 per emitted beat | resets when the monitor restarts, so consumers must not require continuity across restarts |
+
+Roster and heartbeat sources, from running the loop on the full sim stack:
+
+- `max_age_sec` is per component. Only the drive path is fast enough for 0.15 s.
+- Pick signals that keep flowing while the robot is idle. slam_toolbox `/pose`
+  is silent when the robot is stationary, and the controller, `cmd_vel` chain and
+  AMCL publish nothing without an active goal, so none of them is a liveness
+  signal on its own.
+- Prefer a static roster. Changing the roster restarts the arming window, so a
+  roster that follows each Nav2 goal stops the robot for 0.6-0.8 s at every
+  goal start. The verification kit instead uses one `drive_supervision`
+  component that beats only on a fresh non-zero command, or when the last
+  command was zero and odometry has settled. A held non-zero setpoint with no
+  fresh command never beats, which covers a commanding node dying mid-command
+  under "hold the last setpoint" MCU semantics.
+- OOMWOO's own nodes send in-node work-path heartbeats. A topic watcher (a beat
+  from the subscription callback of a node's output) is the fallback for
+  third-party nodes such as Nav2 and slam_toolbox: it shows the node produces
+  output, not that the output is right.
+- On the robot the MCU bridge is the last hop for `cmd_vel`, so that is where
+  motion is gated.
 
 Timeouts add in series: a dead critical component is noticed after up to
 `max_age_sec` plus one aggregator period, then the MCU waits its own soft-stop
