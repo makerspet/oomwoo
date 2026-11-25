@@ -147,11 +147,11 @@ the biggest contributor wedge. Runs ROS2 + LiDAR SLAM + Nav2 comfortably. No on-
 ## 5. I/O board (custom, JLCPCB)
 
 No off-the-shelf DIY-vacuum I/O board exists, so we design one. It carries an *MCU
-running FreeRTOS with a custom safety-focused serial protocol* to the SBC: the SBC
+running real-time firmware with a custom safety-focused serial protocol* to the SBC: the SBC
 does ROS2 / SLAM / nav / vision; the board does real-time motor + sensor I/O.
 
-*MCU:* STM32G473VCT6 (LQFP100) — selected by the current I/O-board design after
-the earlier STM32G070 pin-budget study. Its Cortex-M4F, timer resources, and ADCs
+*MCU:* CH32V307VCT6 (LQFP100) plus a CH32L103C8T6 companion — replacing the
+STM32G473VCT6 in Nov 2026 for cost and stock. Its 144 MHz RISC-V core, timers, and ADCs
 serve closed-loop motor control and the board's many current/sensor channels.
 Offload the *BLDC fan to its external controller* (one PWM command plus FG feedback,
 instead of in-MCU FOC) to save pins and complexity.

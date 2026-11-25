@@ -1,7 +1,7 @@
 # I/O + Motor-Driver PCB (hardware / KiCad)
 
 The custom [I/O board](https://github.com/makerspet/oomwoo-pcb) that
-connects every OOMWOO motor and sensor to the SBC: an STM32 MCU,
+connects every OOMWOO motor and sensor to the SBC: a CH32V307 MCU (plus a CH32L103 companion),
 motor drivers, sensor front-ends, and battery charging on one PCB. Proposed
 software-interface contract: the MCU runs safety-critical firmware and talks to
 the CM4/CM5 CPU over a custom serial / USB link.
@@ -15,10 +15,10 @@ the CM4/CM5 CPU over a custom serial / USB link.
 - *Board spec (authoritative, most up-to-date)* —
   [oomwoo-pcb](https://github.com/makerspet/oomwoo-pcb) ·
   [SPEC.md](https://github.com/makerspet/oomwoo-pcb/blob/main/docs/SPEC.md).
-  The current MCU (**STM32G473VCT6**), motors, sensors, charging, and GPIO budget live here;
+  The current MCUs (**CH32V307VCT6** + **CH32L103C8T6**, replacing the STM32G473 in Nov 2026), motors, sensors, charging, and GPIO budget live here;
   this RFC is the request-for-contribution, the SPEC is the truth.
 - *MCU firmware* — [mcu-io-firmware RFC](../mcu-io-firmware) ·
-  [oomwoo-io-firmware](https://github.com/makerspet/oomwoo-io-firmware).
+  [oomwoo-firmware](https://github.com/makerspet/oomwoo-firmware).
 - *Starting-point schematic (PDF)* —
   [makerspet/oomwoo-pcb](https://github.com/makerspet/oomwoo-pcb/blob/main/docs/oomwoo-io-board-RK3562-schematic.pdf).
   An STM32G070 reference (Apache-2.0, *unvalidated* — a starting point, not a proven
@@ -68,12 +68,12 @@ updated for OOMWOO, then *hold for review before PCB layout*.
 - *Add a CM4/CM5 socket + support* (adapt the official Raspberry Pi CM4/CM5 IO-board designs)
   so the board is a *carrier* for the compute module; see the [SPEC](https://github.com/makerspet/oomwoo-pcb/blob/main/docs/SPEC.md).
 - *Keep and convert to KiCad the I/O side:*
-  - *STM32G473VCT6* MCU + support (clock, decoupling, debug / boot, the custom-serial link to the CPU)
+  - *CH32V307VCT6* + *CH32L103C8T6* MCUs + support (clock, decoupling, debug / boot, the custom-serial link to the CPU)
   - *motor drivers* — drive wheels (×2), main brush, side brush, water pump, mop lift / spin
     (if fitted); put the *suction fan on an external ESC* (one PWM line) to save MCU pins
   - *sensor front-ends* — cliff / anti-fall IR, docking IR + bumper, side-proximity IR, bumper
     switches, IMU, LiDAR interface, multizone ToF, ultrasonic carpet sensor
-  - *battery charging + protection / BMS*, and the board power rails that feed the STM32 /
+  - *battery charging + protection / BMS*, and the board power rails that feed the MCUs /
     sensors / motors (keep these; remove only the SoC-specific rails)
   - speaker + amp, mic, buttons, LEDs
 - *Move the battery from 3S to 4S* — OOMWOO targets *~14.8 V* (see [BOM.md](../../BOM.md)). The
@@ -95,7 +95,7 @@ updated for OOMWOO, then *hold for review before PCB layout*.
 
 - The *entire Rockchip subsystem* (SoC, DRAM, eMMC, PMIC / VCCIO / PMU / PLL, DDR + USB/PCIe
   PHY, MIPI camera) and the *WiFi / BT module* are removed.
-- The *kept blocks* (STM32G473, motor drivers, sensor front-ends, battery charging, audio,
+- The *kept blocks* (CH32V307 + CH32L103, motor drivers, sensor front-ends, battery charging, audio,
   buttons / LEDs, the CM4/CM5 socket + support, and the custom-serial CPU link) are present,
   correct, and complete in *KiCad*.
 - Battery as specified

@@ -22,8 +22,8 @@ layout changes, and later optional Rust experiments under the same workload.
   board; ignore the older RK3562 reference path.
 - The MCU owns motors, sensors, safety, battery/charging supervision, watchdogs,
   and the custom serial protocol.
-- STM32G473 is the selected base-controller MCU, superseding the earlier
-  STM32G070 candidate.
+- The base-controller MCU is a WCH CH32V307 with a CH32L103 companion (Nov 2026),
+  replacing the STM32G473 (cost and stock), which had superseded the STM32G070.
 - The MVP 2D LiDAR target is 5 Hz with no scan dropping.
 - Rust/rclrs is an optional late-summer integration candidate, not a baseline
   dependency today.

@@ -46,7 +46,7 @@ robot application platform. Architectural boundaries (especially the app layer i
        serial (cmds/telemetry) +     |  custom serial protocol
        CPU-reset / health GPIO       |  (NOT micro-ROS)
       +-------------+----------------v---------------+
-      |  MCU - STM32G473 (FreeRTOS, static alloc)    |
+      |  MCU - CH32V307 + CH32L103 (bare-metal C)    |
       |  motors · encoders · sensors · charging ctrl |
       |  SAFETY (no Linux/ROS2): bumper/cliff/wheel- |
       |  drop stop · current limit · CPU watchdog    |
@@ -131,14 +131,15 @@ NPU options).
 - The earlier bespoke *RK3562* reference schematic is *dropped* in favour of the
   CM4/CM5 carrier.
 
-*MCU (real-time / safety controller).* A dedicated *STM32G473VCT6* microcontroller
-(Cortex-M4F, LQFP100, multiple ADCs and timer resources), selected by the current
-I/O-board design, owns *motors, encoders, all sensors, battery-charging control,
+*MCU (real-time / safety controller).* A dedicated *WCH CH32V307VCT6* microcontroller
+(144 MHz RISC-V with FPU, LQFP100, ADCs, timers, a parallel camera port and high-speed
+USB), with a *CH32L103C8T6* companion for power, buttons and USB-C, owns *motors, encoders, all sensors, battery-charging control,
 and safety*. Its
 role is *fixed*: functionality does not migrate onto the CPU, and CPU work does not
 migrate onto the MCU.
-- Firmware uses a layered *FreeRTOS* design (static allocation, watchdog, bounded
-  reaction times, CE-oriented) speaking a *custom serial protocol — not micro-ROS*
+- Firmware is bare-metal C with the hard-deadline parts in interrupts (static
+  allocation, watchdog, bounded reaction times, CE-oriented; FreeRTOS may come later
+  for USB, camera and ToF work), speaking a *custom serial protocol — not micro-ROS*
   (the tried-and-true consumer-vacuum approach; cf. the reverse-engineered
   [3irobotix protocol](https://github.com/codetiger/VacuumRobot)).
 - *Hard safety lives here, independent of Linux/ROS2:* the MCU stops all motors on
@@ -168,7 +169,7 @@ The same carrier I/O board + MCU supports two swappable compute configurations:
 Onboard SLAM is the default for the consumer version *so non-experts can build and
 use it* without setting up a separate ROS2 dev machine. The ESP32-S3 can only be
 the *CPU-slot* option — it lacks the ~60 GPIO the MCU role needs, so it never
-replaces the STM32.
+replaces the MCU.
 
 ## 6. Software architecture
 
@@ -231,9 +232,9 @@ bumper/cliff/wheel-drop, current-limits a stuck brush, and watchdog-resets the C
   charged 16.8 V CC/CV. See §5.3, §8.
 - Can OOMWOO's onboard ROS2 stack fit in *2 GB* (composable nodes, selective Rust)
   rather than 4 GB? To be answered by the compute-benchmark.
-- *Resolved:* the reference I/O board uses *STM32G473VCT6*, superseding the earlier
-  STM32G070 candidate. Pin-compatible alternatives remain a separate board-design
-  decision.
+- *Resolved:* the reference I/O board uses a *CH32V307VCT6* plus a *CH32L103C8T6*
+  companion (Nov 2026), replacing the *STM32G473VCT6* for cost and stock; see
+  [mcu-ch32v307.md](https://github.com/makerspet/oomwoo-pcb/blob/main/docs/mcu-ch32v307.md).
 - One hardware-agnostic HAL covering reference vacuum + DIY builds (community idea)?
 - Module selection process: who decides which competing implementation wins, and
   on what criteria? (See each module's acceptance criteria.)

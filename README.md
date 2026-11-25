@@ -100,7 +100,7 @@ status. That board is the single source of truth, so this page links to it rathe
 than copying it: a second copy here only ever drifts out of date. Broadly:
 
 - **Software & simulation** — cleaning, localization & navigation, perception, the Gazebo sim
-- **Firmware & electronics** — STM32 I/O board firmware, the I/O + motor-driver PCB, the board interface
+- **Firmware & electronics** — CH32 MCU I/O board firmware, the I/O + motor-driver PCB, the board interface
 - **Mechanical & procurement** — brushes, blower fan, dust bin, part specs and STEP models
 
 **[→ Browse the RFC board and pick a module](contributions/README.md)**
